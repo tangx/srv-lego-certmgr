@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert"
-	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/qcloud"
+	qcloud "github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/dnspod"
 )
 
 var root *gin.RouterGroup

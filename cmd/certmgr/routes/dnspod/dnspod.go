@@ -1,4 +1,4 @@
-package qcloud
+package dnspod
 
 import (
 	"fmt"

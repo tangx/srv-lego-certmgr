@@ -43,6 +43,7 @@ func (c *Client) signProvider() {
 	}
 
 	c.provider = p
+	c.cli.SetDNS01Provider(c.provider, c.nsopt)
 }
 
 func (c *Client) signLegoxClient() {

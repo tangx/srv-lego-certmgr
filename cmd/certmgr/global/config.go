@@ -23,7 +23,7 @@ var (
 )
 
 var (
-	alidns_accesskey = os.Getenv("ALICLOUD_SECRET_KEY")
+	alidns_accesskey = os.Getenv("ALICLOUD_ACCESS_KEY")
 	alidns_secretkey = os.Getenv("ALICLOUD_SECRET_KEY")
 	alidns_email     = os.Getenv("ADMIN_EMAIL")
 	LegoAliyun       = alidnsprovider.NewDefaultClient(alidns_email, alidns_accesskey, alidns_secretkey)

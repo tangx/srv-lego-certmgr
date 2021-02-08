@@ -17,6 +17,17 @@ type Client struct {
 	nsopt      dns01.ChallengeOption
 }
 
+func NewDefaultClient(email string, accessKey string, secretKey string) *Client {
+	c := &Client{
+		Email:     email,
+		AccessKey: accessKey,
+		SecretKey: secretKey,
+	}
+	c.Init()
+
+	return c
+}
+
 func NewProvider(access, secret string) (*alidns.DNSProvider, error) {
 	config := alidns.NewDefaultConfig()
 	config.APIKey = access

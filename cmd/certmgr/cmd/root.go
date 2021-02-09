@@ -8,13 +8,13 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use: "certmgr",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-
 		global.Initial()
-
 		routes.AppendRoute(global.Server)
 		_ = global.Server.Run(":80")
-
 	},
 }
 

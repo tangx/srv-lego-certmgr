@@ -1,8 +1,23 @@
-# srv-cert-manager
+# lego-certmgr 一款使用 lego 生成域名证书的代理服务
 
-使用 lego 创建 `let's encrypt` 证书
+`lego-certmgr` 是一个基于 [lego - Github](https://github.com/go-acme/lego) Libiray 封装的证书申请 **代理** 。
 
-根据注册的 provider 添加路由
+其目的是
+
+1. 为了快速方便的申请 **Let's Encrypt** 证书
+2. 提供 RESTful API 接口， 方便下游系统 (ex `cmdb`) 调用并进行资源管理
+
+因此
+
+1. `certmgr` 为了方便快速返回已生成过的证书而缓存了一份结果。
+2. 由于 `certmgr` 定位是 **代理** ， 所以并未考虑证书的 **持久化** 和 **过期重建** 操作。 
+
+## 使用说明
+
+### 下载 
+
+访问 Github 下载最新版 lego-certmgr [GitHub Release - lego-certmgr](https://github.com/tangx/srv-lego-certmgr/releases/latest)
+
 
 ## Usage
 

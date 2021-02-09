@@ -1,14 +1,12 @@
 package main
 
-import (
-	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
-	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes"
-)
+import "github.com/tangx/srv-lego-certmgr/cmd/certmgr/cmd"
 
 func main() {
-	global.Server.Run(":80")
+	cmd.Execute()
 }
 
-func init() {
-	routes.AppendRoute(global.Server)
-}
+// func init() {
+// 	global.Server.Run(":80")
+// 	routes.AppendRoute(global.Server)
+// }

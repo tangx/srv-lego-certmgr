@@ -1,10 +1,10 @@
 package dnspodprovider
 
 import (
-	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/go-acme/lego/v4/challenge/dns01"
 	"github.com/go-acme/lego/v4/providers/dns/dnspod"
 	"github.com/sirupsen/logrus"
+	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 )
 
 type DnspodClient struct {
@@ -57,11 +57,11 @@ func (dp *DnspodClient) Default() {
 	}
 
 	if dp.Token == "" {
-		panic("dnspod token is missing")
+		logrus.Fatal("dnspod token is missing")
 	}
 
 	if dp.Email == "" {
-		panic("user email is required")
+		logrus.Fatal("user email is required")
 	}
 
 }

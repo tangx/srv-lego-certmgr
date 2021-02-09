@@ -1,12 +1,18 @@
+GOOS ?= $(shell go env GOOS)
+GOARCH ?= $(shell go env GOARCH)
 
-ROOT := cmd/certmgr
+MAIN_ROOT := cmd/certmgr
 
 debug:
-	cd $(ROOT) && go run .
+	cd $(MAIN_ROOT) && go run .
 
 build:
-	# cd $(ROOT) && go build -o ../../bin/certmgr .
-	cd $(ROOT) && GOOS=linux go build -o ../../bin/certmgr-linux-amd64 .
+	cd $(MAIN_ROOT) && go build -o ../../bin/certmgr-$(GOOS)-$(GOARCH) .
+
+buildx:
+	GOOS=darwin GOARCH=amd64 make build
+	GOOS=linux  GOARCH=amd64 make build
+	GOOS=linux  GOARCH=arm64 make build
 
 clean:
 	go mod tidy

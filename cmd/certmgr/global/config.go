@@ -19,7 +19,6 @@ var CertMap = make(map[string](legox.Certificate))
 // 任务队列
 var (
 	CertGenerateJob = make(map[string]error)
-	CertGenerateCh  = make(chan string, 20)
 )
 
 // Flags

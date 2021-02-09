@@ -7,18 +7,18 @@ import (
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 )
 
-type Client struct {
-	Email      string
-	AccessKey  string
-	SecretKey  string
-	Nameserver string
-	provider   *alidns.DNSProvider
-	cli        *legox.LegoxClient
-	nsopt      dns01.ChallengeOption
+type Alidns struct {
+	Email      string                `env:"email"`
+	AccessKey  string                `env:"access_key"`
+	SecretKey  string                `env:"secret_key"`
+	Nameserver string                `env:"nameserver"`
+	provider   *alidns.DNSProvider   `env:"-"`
+	cli        *legox.LegoxClient    `env:"-"`
+	nsopt      dns01.ChallengeOption `env:"-"`
 }
 
-func NewDefaultClient(email string, accessKey string, secretKey string) *Client {
-	c := &Client{
+func NewDefaultClient(email string, accessKey string, secretKey string) *Alidns {
+	c := &Alidns{
 		Email:     email,
 		AccessKey: accessKey,
 		SecretKey: secretKey,
@@ -36,7 +36,7 @@ func NewProvider(access, secret string) (*alidns.DNSProvider, error) {
 	return alidns.NewDNSProviderConfig(config)
 }
 
-func (c *Client) signProvider() {
+func (c *Alidns) signProvider() {
 	p, err := NewProvider(c.AccessKey, c.SecretKey)
 	if err != nil {
 		logrus.Fatal(err)
@@ -46,17 +46,17 @@ func (c *Client) signProvider() {
 	c.cli.SetDNS01Provider(c.provider, c.nsopt)
 }
 
-func (c *Client) signLegoxClient() {
+func (c *Alidns) signLegoxClient() {
 	c.cli = legox.NewClient(c.Email)
 }
 
-func (c *Client) Init() {
+func (c *Alidns) Init() {
 	c.Default()
 	c.signLegoxClient()
 	c.signProvider()
 }
 
-func (c *Client) Default() {
+func (c *Alidns) Default() {
 	if c.Nameserver == "" {
 		c.nsopt = legox.DefaultNSOpts
 	} else {
@@ -71,6 +71,6 @@ func (c *Client) Default() {
 	}
 }
 
-func (c *Client) ApplyCertificate(domains ...string) (legox.Certificate, error) {
+func (c *Alidns) ApplyCertificate(domains ...string) (legox.Certificate, error) {
 	return c.cli.ApplyCertificate(domains...)
 }

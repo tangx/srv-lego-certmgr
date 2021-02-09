@@ -26,5 +26,5 @@ export DNSPOD_API_EMAIL=xxxx@example.com
 ## todo
 
 + [x] 优化 `routes/qcloud` ， 使其完成多 provider 注册式功能， 以支持多 provider
-+ [ ] 优化 **初始化设置** 支持读取配置文件或环境变量， 实现多 provider 注册。 
++ [x] 优化 **初始化设置** 支持读取配置文件或环境变量， 实现多 provider 注册。 
 + [ ] 优化 `initial` 逻辑 ， 同一个 email 只向 `let's encrypt` 注册一次

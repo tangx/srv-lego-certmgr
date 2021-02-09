@@ -28,7 +28,7 @@ jobs:
         with:
           tag_name: ${{ steps.build.outputs.version }}
           release_name: Release ${{ steps.build.outputs.version }}
-          draft: true
+          draft: false
           prerelease: false
       - uses: csexton/release-asset-action@v2
         with:

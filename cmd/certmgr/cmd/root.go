@@ -1,13 +1,17 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes"
+	"github.com/tangx/srv-lego-certmgr/version"
 )
 
 var rootCmd = &cobra.Command{
-	Use: "certmgr",
+	Use:  "certmgr",
+	Long: fmt.Sprintf("Version:\n  v%s", version.Version),
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		_ = cmd.Help()
 	},

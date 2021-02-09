@@ -10,8 +10,7 @@ import (
 )
 
 var (
-	Server  = gin.Default()
-	AppName = "lego-certmgr"
+	Server = gin.Default()
 )
 
 // 用于保存生成的证书，方便 GET 时快速返回。 不持久化

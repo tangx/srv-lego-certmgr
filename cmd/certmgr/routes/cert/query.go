@@ -3,15 +3,14 @@ package cert
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/utils"
-	"github.com/gin-gonic/gin"
 )
 
 func GetHandler(c *gin.Context) {
 
 	domain := c.Param("domain")
-	domain = convert(domain)
 
 	cert, ok := utils.PopCert(domain)
 

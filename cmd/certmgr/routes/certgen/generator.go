@@ -1,4 +1,4 @@
-package certprovider
+package certgen
 
 import (
 	"fmt"
@@ -23,24 +23,12 @@ func init() {
 	retryApply()
 }
 
-// 设置路由
-func AppendRoute(rg *gin.RouterGroup, name string) {
-
-	subroot := rg.Group("gen")
-
-	provroot := subroot.Group(name)
-	// provroot.GET("/ping")
-	provroot.POST("/:domains", ApplyCertificateHandler)
-	provroot.GET("/:domains", GetHandler)
-
-}
-
 func ApplyCertificateHandler(c *gin.Context) {
 
-	domains := SortDomains(c.Param("domains"))
+	domains := sortDomains(c.Param("domains"))
 
 	// prov for provider
-	prov := ProviderPostion(c.Request.URL.Path, 3)
+	prov := providerPostion(c.Request.URL.Path, 3)
 
 	// 后台执行
 	go func() {
@@ -59,12 +47,12 @@ func ApplyCertificateHandler(c *gin.Context) {
 
 // GetHandler 303 redirect
 func GetHandler(c *gin.Context) {
-	domains := SortDomains(c.Param("domains"))
-	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/certmgr/cert/query/%s", domains))
+	domains := sortDomains(c.Param("domains"))
+	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/certmgr/query/%s", domains))
 }
 
 func applyCertificate(prov string, domains string) error {
-	dl := SplitDomains(domains)
+	dl := splitDomains(domains)
 
 	logrus.Debugln("provider = ", prov)
 	cert, err := global.Providers[prov].ApplyCertificate(dl...)

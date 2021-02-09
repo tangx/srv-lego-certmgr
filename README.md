@@ -7,9 +7,17 @@
 
 ```bash
 export DNSPOD_API_KEY=123123123,123123
-export DNSPOD_API_EMAIL=xxxx@example.com
+export ADMIN_EMAIL=xxxx@example.com
 
-./certmgr
+./certmgr --dnspod
+
+# 
+export ALICLOUD_ACCESS_KEY=ACCasdfasdfasdf
+export ALICLOUD_SECRET_KEY=SECaasdf0sdfa02sdfa
+export ADMIN_EMAIL=xxxx@example.com
+
+./certmgr --alidns
+
 ```
 
 **路由**

@@ -37,7 +37,12 @@ func GetHandler(c *gin.Context) {
 
 func DownloadHandler(c *gin.Context) {
 	domain := c.Param("domain")
-	if cert, ok := utils.PopCert(domain); ok {
-		c.Redirect(http.StatusTemporaryRedirect, cert.CertStableURL)
+
+	zipfile, err := download(domain)
+	if err != nil {
+		c.String(http.StatusNotFound, err.Error())
+		return
 	}
+
+	c.FileAttachment(zipfile, zipfile)
 }

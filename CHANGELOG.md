@@ -5,7 +5,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.1.3](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.2...v0.1.3)
+
+### Bug Fixes
+
+* **fix** 下载更新为压缩包， 包含 private key 文件 ([8d030b3](https://github.com/tangx/srv-lego-certmgr/commit/8d030b35a73fd6fda714c566718daf41185edc20))
+
+
+
 # [0.1.2](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.1...v0.1.2)
+
 
 
 # [0.1.1](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.0...v0.1.1)

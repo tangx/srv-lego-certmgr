@@ -1,9 +1,9 @@
 package global
 
 import (
-	"os"
-
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
+	"github.com/tangx/goutils/viperx"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/dnspodprovider"
@@ -31,20 +31,32 @@ var (
 var Providers = map[string]legox.Provider{}
 
 func Initial() {
+
+	// todo: 读取配置文件
+	_ = viper.ReadInConfig()
+
+	// todo: 读取环境变量
+	viper.AutomaticEnv()
+
 	if DnspodEnabled {
-		qcloud_email := os.Getenv("ADMIN_EMAIL")
-		qcloud_token := os.Getenv("DNSPOD_API_KEY")
+		qcloud_email := viper.GetString("ADMIN_EMAIL")
+		qcloud_token := viper.GetString("DNSPOD_API_KEY")
 		LegoDnspod := dnspodprovider.NewDefualtClient(qcloud_email, qcloud_token)
 
 		Providers["dnspod"] = LegoDnspod
 	}
 
 	if AlidnsEnabled {
-		alidns_accesskey := os.Getenv("ALICLOUD_ACCESS_KEY")
-		alidns_secretkey := os.Getenv("ALICLOUD_SECRET_KEY")
-		alidns_email := os.Getenv("ADMIN_EMAIL")
+		alidns_accesskey := viper.GetString("ALICLOUD_ACCESS_KEY")
+		alidns_secretkey := viper.GetString("ALICLOUD_SECRET_KEY")
+		alidns_email := viper.GetString("ADMIN_EMAIL")
 		LegoAliyun := alidnsprovider.NewDefaultClient(alidns_email, alidns_accesskey, alidns_secretkey)
 
 		Providers["alidns"] = LegoAliyun
 	}
+}
+
+func init() {
+	viperx.Default()
+	viperx.AddConfigPath("$HOME/certmgr")
 }

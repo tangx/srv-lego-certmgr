@@ -21,6 +21,10 @@
 
 ## Usage
 
+使用 `viper` 进行配置管理， 可以通过 `环境变量` 或 `配置文件` 进行参数传递
+
+### 通过环境变量
+
 ```bash
 export DNSPOD_API_KEY=123123123,123123
 export ADMIN_EMAIL=xxxx@example.com
@@ -34,6 +38,22 @@ export ADMIN_EMAIL=xxxx@example.com
 
 ./certmgr --alidns
 
+```
+
+### 使用配置文件
+
++ 路径为 `$HOME/certmgr` 或 `程序当前目录`
++ 文件名为 `config.yml / config.yaml`
+
+```yaml
+# dnspod
+DNSPOD_API_KEY : 123123123,123123
+
+# alidns
+ALICLOUD_ACCESS_KEY : ACCasdfasdfasdf
+ALICLOUD_SECRET_KEY : SECaasdf0sdfa02sdfa
+
+ADMIN_EMAIL : xxxx@example.com
 ```
 
 **路由**

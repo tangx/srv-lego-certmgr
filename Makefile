@@ -1,7 +1,7 @@
 GOOS ?= $(shell go env GOOS)
 GOARCH ?= $(shell go env GOARCH)
 LAST_COMMIT := $(shell git rev-parse --short HEAD)
-VERSION := $(shell cat .version)
+VERSION := v$(shell cat .version)
 
 GOMOD := $(shell head -n 1 go.mod | cut -d ' ' -f 2)
 FLAGS := "-X $(GOMOD)/version.Version=$(VERSION)-sha.$(LAST_COMMIT)"

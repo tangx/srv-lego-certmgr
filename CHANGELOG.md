@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.1.4](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.3...v0.1.4)
+
+### Bug Fixes
+
+* **fix** 修复重试机制失效问题 ([54a2fe8](https://github.com/tangx/srv-lego-certmgr/commit/54a2fe89c21f4d11570cc10af291cb22759a980a))
+
+
+
 # [0.1.3](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.2...v0.1.3)
 
 ### Bug Fixes

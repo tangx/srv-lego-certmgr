@@ -19,10 +19,6 @@ var (
 	retryChannel = make(map[string]chan string)
 )
 
-func init() {
-	retryApply()
-}
-
 func ApplyCertificateHandler(c *gin.Context) {
 
 	domains := sortDomains(c.Param("domains"))
@@ -67,21 +63,27 @@ func applyCertificate(prov string, domains string) error {
 }
 
 // retryApply 错误重试
-func retryApply() {
-	retry := func(prov string) {
+func retryApply(prov string) {
+
+	go func() {
+		logrus.Infof("启动 %s 重试队列", prov)
 		for {
 			domains := <-retryChannel[prov]
-			times := retryCounter[domains]
+
+			retryCounter[domains] = retryCounter[domains] + 1
+
+			retryTimes := retryCounter[domains]
 
 			// 超过4次重试就略过
-			if times > 4 {
+			if retryTimes > 4 {
 				retryCounter[domains] = 0
 				continue
 			}
 
+			logrus.Infof("%s -> 第 %d 次重试:  %s\n", prov, retryTimes, domains)
 			// 重试
 			// 等待 60 秒继续
-			time.Sleep(60 * time.Second)
+			time.Sleep(30 * time.Second)
 			err := applyCertificate(prov, domains)
 
 			// 失败继续重试
@@ -93,9 +95,6 @@ func retryApply() {
 			// 成功，重试次数重置为 0
 			retryCounter[domains] = 0
 		}
-	}
+	}()
 
-	for prov := range retryChannel {
-		go retry(prov)
-	}
 }

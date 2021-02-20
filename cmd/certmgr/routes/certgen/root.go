@@ -7,9 +7,10 @@ func AppendRoute(rg *gin.RouterGroup, name string) {
 
 	subroot := rg.Group("gen")
 
+	// 根据 provider 注册路由
 	provroot := subroot.Group(name)
-	// provroot.GET("/ping")
 	provroot.POST("/:domains", ApplyCertificateHandler)
 	provroot.GET("/:domains", GetHandler)
-
+	// 启动重试队列
+	retryApply(name)
 }

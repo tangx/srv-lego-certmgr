@@ -2,6 +2,7 @@ package global
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"github.com/tangx/goutils/viperx"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
@@ -32,10 +33,12 @@ var Providers = map[string]legox.Provider{}
 
 func Initial() {
 
-	// todo: 读取配置文件
-	_ = viper.ReadInConfig()
-
-	// todo: 读取环境变量
+	// 读取配置文件
+	err := viper.ReadInConfig()
+	if err != nil {
+		logrus.Fatal(err.Error())
+	}
+	// 绑定环境变量
 	viper.AutomaticEnv()
 
 	if DnspodEnabled {

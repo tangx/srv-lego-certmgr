@@ -7,7 +7,7 @@ import (
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 )
 
-type Dnspod struct {
+type Config struct {
 	Email      string                `env:"email"`
 	Token      string                `env:"token"`
 	Nameserver string                `env:"nameserver"`
@@ -28,8 +28,8 @@ func NewProvider(token string) *dnspod.DNSProvider {
 	return p
 }
 
-func NewDefualtClient(email string, token string) *Dnspod {
-	dp := &Dnspod{
+func NewDefualtClient(email string, token string) *Config {
+	dp := &Config{
 		Email: email,
 		Token: token,
 	}
@@ -40,14 +40,14 @@ func NewDefualtClient(email string, token string) *Dnspod {
 }
 
 // 初始化
-func (dp *Dnspod) Init() {
+func (dp *Config) Init() {
 	dp.Default()
 	dp.signLegoxClient()
 	dp.signProvider()
 }
 
 // 初始化默认信息
-func (dp *Dnspod) Default() {
+func (dp *Config) Default() {
 
 	// 设置 Nameserver 信息
 	if dp.Nameserver == "" {
@@ -67,17 +67,17 @@ func (dp *Dnspod) Default() {
 }
 
 // ApplyCertificate 向 letsencrypt 申请证书
-func (dp *Dnspod) ApplyCertificate(domains ...string) (legox.Certificate, error) {
+func (dp *Config) ApplyCertificate(domains ...string) (legox.Certificate, error) {
 	return dp.cli.ApplyCertificate(domains...)
 }
 
 // signLegoxClient 将初始化一个 legox 客户端
-func (dp *Dnspod) signLegoxClient() {
+func (dp *Config) signLegoxClient() {
 	dp.cli = legox.NewClient(dp.Email)
 }
 
 // signProvider 向 legox 中加入 provider 的信息
-func (dp *Dnspod) signProvider() {
+func (dp *Config) signProvider() {
 	dp.provider = NewProvider(dp.Token)
 	dp.cli.SetDNS01Provider(dp.provider, dp.nsopt)
 }

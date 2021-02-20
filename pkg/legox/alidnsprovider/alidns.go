@@ -7,7 +7,7 @@ import (
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 )
 
-type Alidns struct {
+type Config struct {
 	Email      string                `env:"email"`
 	AccessKey  string                `env:"access_key"`
 	SecretKey  string                `env:"secret_key"`
@@ -17,15 +17,15 @@ type Alidns struct {
 	nsopt      dns01.ChallengeOption `env:"-"`
 }
 
-func NewDefaultClient(email string, accessKey string, secretKey string) *Alidns {
-	c := &Alidns{
+func NewDefaultClient(email string, accessKey string, secretKey string) *Config {
+	ali := &Config{
 		Email:     email,
 		AccessKey: accessKey,
 		SecretKey: secretKey,
 	}
-	c.Init()
+	ali.Init()
 
-	return c
+	return ali
 }
 
 func NewProvider(access, secret string) (*alidns.DNSProvider, error) {
@@ -36,41 +36,41 @@ func NewProvider(access, secret string) (*alidns.DNSProvider, error) {
 	return alidns.NewDNSProviderConfig(config)
 }
 
-func (c *Alidns) signProvider() {
-	p, err := NewProvider(c.AccessKey, c.SecretKey)
+func (ali *Config) signProvider() {
+	p, err := NewProvider(ali.AccessKey, ali.SecretKey)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	c.provider = p
-	c.cli.SetDNS01Provider(c.provider, c.nsopt)
+	ali.provider = p
+	ali.cli.SetDNS01Provider(ali.provider, ali.nsopt)
 }
 
-func (c *Alidns) signLegoxClient() {
-	c.cli = legox.NewClient(c.Email)
+func (ali *Config) signLegoxClient() {
+	ali.cli = legox.NewClient(ali.Email)
 }
 
-func (c *Alidns) Init() {
-	c.Default()
-	c.signLegoxClient()
-	c.signProvider()
+func (ali *Config) Init() {
+	ali.Default()
+	ali.signLegoxClient()
+	ali.signProvider()
 }
 
-func (c *Alidns) Default() {
-	if c.Nameserver == "" {
-		c.nsopt = legox.DefaultNSOpts
+func (ali *Config) Default() {
+	if ali.Nameserver == "" {
+		ali.nsopt = legox.DefaultNSOpts
 	} else {
-		c.nsopt = legox.SetNSOpts(c.Nameserver)
+		ali.nsopt = legox.SetNSOpts(ali.Nameserver)
 	}
 
-	if c.AccessKey == "" || c.SecretKey == "" {
+	if ali.AccessKey == "" || ali.SecretKey == "" {
 		logrus.Fatal("alidns AccessKey or SecretKey is required")
 	}
-	if c.Email == "" {
+	if ali.Email == "" {
 		logrus.Fatal("alidns Email is required")
 	}
 }
 
-func (c *Alidns) ApplyCertificate(domains ...string) (legox.Certificate, error) {
-	return c.cli.ApplyCertificate(domains...)
+func (ali *Config) ApplyCertificate(domains ...string) (legox.Certificate, error) {
+	return ali.cli.ApplyCertificate(domains...)
 }

@@ -1,6 +1,9 @@
 package certgen
 
-import "strings"
+import (
+	"sort"
+	"strings"
+)
 
 func providerPostion(uri string, pos int) string {
 	uriList := strings.Split(uri, "/")
@@ -9,6 +12,7 @@ func providerPostion(uri string, pos int) string {
 
 func sortDomains(domains string) string {
 	dl := splitDomains(domains)
+	sort.Strings(dl)
 	return joinDomains(dl)
 }
 

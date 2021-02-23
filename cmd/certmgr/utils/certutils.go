@@ -9,7 +9,7 @@ func PushCert(domain string, cert legox.Certificate) {
 	global.CertMap[domain] = cert
 }
 
-func PopCert(domain string) (legox.Certificate, bool) {
+func GetCert(domain string) (legox.Certificate, bool) {
 	cert, ok := global.CertMap[domain]
 	if ok {
 		return cert, true

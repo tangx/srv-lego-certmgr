@@ -42,7 +42,7 @@ func save(name string, content string) {
 func download(domain string) (string, error) {
 
 	// 域名证书是否存在
-	cert, ok := utils.PopCert(domain)
+	cert, ok := utils.GetCert(domain)
 	if !ok {
 		return "", errors.New("no such domain")
 	}

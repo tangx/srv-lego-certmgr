@@ -13,7 +13,7 @@ func GetHandler(c *gin.Context) {
 
 	domain := c.Param("domain")
 
-	cert, ok := utils.PopCert(domain)
+	cert, ok := utils.GetCert(domain)
 
 	// 存在 则显示结果
 	if ok {

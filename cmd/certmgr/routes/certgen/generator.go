@@ -14,8 +14,6 @@ import (
 
 // 包环境变量设置 retry 设置
 var (
-	// retry 计数器
-	retryCounter = make(map[string]int)
 	// retry 通道， 为了支持多 provider 的情况
 	retryChannel = make(map[string]chan string)
 )
@@ -24,10 +22,22 @@ func ApplyCertificateHandler(c *gin.Context) {
 
 	domains := sortDomains(c.Param("domains"))
 
-	// prov for provider
+	// 如果已存在证书，且在有效期内
+	// 则直接返回
+	cert, ok := utils.GetCert(domains)
+	if ok {
+		now := time.Now().Local()
+		if now.Sub(cert.NotBefore.Local()) < time.Hour*24*15 {
+			logrus.Infof("证书 %s 在有效期内， 无需重建", domains)
+			httpresponse.StatusDefault(c, http.StatusCreated, "domain cert created", nil)
+			return
+		}
+	}
+
+	// 获取 url 中 dns provider 的位置。
 	prov := providerPostion(c.Request.URL.Path, 3)
 
-	// 后台执行
+	// 后台执行申请
 	go func() {
 		err := applyCertificate(prov, domains)
 		if err != nil {
@@ -39,14 +49,7 @@ func ApplyCertificateHandler(c *gin.Context) {
 		}
 	}()
 
-	m := struct {
-		Domains string
-		Message string
-	}{
-		Domains: domains,
-		Message: c.FullPath(),
-	}
-	httpresponse.StatusDefault(c, http.StatusCreated, m, nil)
+	httpresponse.StatusDefault(c, http.StatusCreated, "domain cert created", nil)
 }
 
 // GetHandler 303 redirect
@@ -58,13 +61,11 @@ func GetHandler(c *gin.Context) {
 func applyCertificate(prov string, domains string) error {
 	dl := splitDomains(domains)
 
-	logrus.Debugln("provider = ", prov)
+	// 申请新证书
 	cert, err := global.Providers[prov].ApplyCertificate(dl...)
-
 	if err != nil {
 		return err
 	}
-
 	// 缓存结果
 	utils.PushCert(domains, cert)
 	return nil
@@ -72,36 +73,23 @@ func applyCertificate(prov string, domains string) error {
 
 // retryApply 错误重试
 func retryApply(prov string) {
+	ch := make(chan string)
+	retryChannel[prov] = ch
 
 	go func() {
 		logrus.Infof("启动 %s 重试队列", prov)
 		for {
 			domains := <-retryChannel[prov]
 
-			retryCounter[domains] = retryCounter[domains] + 1
+			for i := 1; i < 4; i++ {
+				logrus.Infof("%s -> 第 %d 次重试:  %s\n", prov, i, domains)
+				err := applyCertificate(prov, domains)
+				if err == nil {
+					break
+				}
 
-			retryTimes := retryCounter[domains]
-
-			// 超过4次重试就略过
-			if retryTimes > 4 {
-				retryCounter[domains] = 0
-				continue
+				time.Sleep(30 * time.Second)
 			}
-
-			logrus.Infof("%s -> 第 %d 次重试:  %s\n", prov, retryTimes, domains)
-			// 重试
-			// 等待 60 秒继续
-			time.Sleep(30 * time.Second)
-			err := applyCertificate(prov, domains)
-
-			// 失败继续重试
-			if err != nil {
-				retryChannel[prov] <- domains
-				continue
-			}
-
-			// 成功，重试次数重置为 0
-			retryCounter[domains] = 0
 		}
 	}()
 

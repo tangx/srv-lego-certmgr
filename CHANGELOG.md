@@ -5,6 +5,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.3](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.2...v0.2.3)
+
+### Bug Fixes
+
+* **fix** 修复重试逻辑 ([533c921](https://github.com/tangx/srv-lego-certmgr/commit/533c921635c351355bedf39c310347c79bf6ea87))
+* **fix** 增加自定义监听端口 ([7e893d8](https://github.com/tangx/srv-lego-certmgr/commit/7e893d8d69413aa630094f60ac8b9dcc5f941701))
+
+
+
 # [0.2.2](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.1...v0.2.2)
 
 ### Bug Fixes

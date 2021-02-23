@@ -1,11 +1,12 @@
 package cert
 
 import (
-	"net/http"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/utils"
+	"github.com/tangx/srv-lego-certmgr/pkg/httpresponse"
 )
 
 func GetHandler(c *gin.Context) {
@@ -16,7 +17,7 @@ func GetHandler(c *gin.Context) {
 
 	// 存在 则显示结果
 	if ok {
-		c.JSON(http.StatusOK, cert)
+		httpresponse.StatusOK(c, cert)
 		return
 	}
 
@@ -24,13 +25,13 @@ func GetHandler(c *gin.Context) {
 	err, ok := global.CertGenerateJob[domain]
 	if !ok {
 		// 不存在任务
-		c.String(http.StatusBadRequest, "domain certs does not exists")
+		httpresponse.StatusNotFound(c, fmt.Errorf("domain certs does not exists"))
 		return
 	}
 
 	// 返回当前错误
 	if err != nil {
-		c.String(http.StatusBadRequest, err.Error())
+		httpresponse.StatusBadRequest(c, err)
 		return
 	}
 }
@@ -40,7 +41,7 @@ func DownloadHandler(c *gin.Context) {
 
 	zipfile, err := download(domain)
 	if err != nil {
-		c.String(http.StatusNotFound, err.Error())
+		httpresponse.StatusNotFound(c, err)
 		return
 	}
 

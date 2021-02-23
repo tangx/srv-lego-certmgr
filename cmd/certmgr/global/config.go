@@ -62,5 +62,5 @@ func Initial() {
 
 func init() {
 	viperx.Default()
-	viperx.AddConfigPath("$HOME/certmgr")
+	viperx.AddConfigPaths("$HOME/certmgr")
 }

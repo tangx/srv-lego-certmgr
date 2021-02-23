@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/utils"
+	"github.com/tangx/srv-lego-certmgr/pkg/httpresponse"
 )
 
 // 包环境变量设置 retry 设置
@@ -38,7 +39,14 @@ func ApplyCertificateHandler(c *gin.Context) {
 		}
 	}()
 
-	c.String(http.StatusOK, "applying...")
+	m := struct {
+		Domains string
+		Message string
+	}{
+		Domains: domains,
+		Message: c.FullPath(),
+	}
+	httpresponse.StatusDefault(c, http.StatusCreated, m, nil)
 }
 
 // GetHandler 303 redirect

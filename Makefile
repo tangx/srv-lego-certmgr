@@ -22,3 +22,4 @@ buildx:
 clean:
 	go mod tidy
 	rm -rf bin/
+	rm -f cmd/certmgr/*.zip

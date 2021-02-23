@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.1](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.0...v0.2.1)
+
+### Bug Fixes
+
+* **fix** public response ([4f95f00](https://github.com/tangx/srv-lego-certmgr/commit/4f95f000a791a5e4bf3cc5c46e7633b56c6d3301))
+
+
+
 # [0.2.0](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.4...v0.2.0)
 
 ### Features

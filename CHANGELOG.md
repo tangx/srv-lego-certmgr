@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.0](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.4...v0.2.0)
+
+### Features
+
+* **feat** 增加更友善的 http response ([1b2f467](https://github.com/tangx/srv-lego-certmgr/commit/1b2f467d13a4f4dfd80af3d2ba22f5b221d6c6e4))
+
+
+
 # [0.1.4](https://github.com/tangx/srv-lego-certmgr/compare/v0.1.3...v0.1.4)
 
 ### Bug Fixes

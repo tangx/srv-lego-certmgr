@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.2](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.1...v0.2.2)
+
+### Bug Fixes
+
+* **fix** 修复了域名没有排序的问题 ([d1c20dc](https://github.com/tangx/srv-lego-certmgr/commit/d1c20dcd21153cf675a637fe87887f287dd23746))
+
+
+
 # [0.2.1](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.0...v0.2.1)
 
 ### Bug Fixes

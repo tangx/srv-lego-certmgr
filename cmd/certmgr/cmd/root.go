@@ -27,7 +27,7 @@ var listenAddr string
 func init() {
 	rootCmd.PersistentFlags().BoolVarP(&global.AlidnsEnabled, "alidns", "", false, "enabled/disabled alidns provider")
 	rootCmd.PersistentFlags().BoolVarP(&global.DnspodEnabled, "dnspod", "", false, "enabled/disabled dnspod provider")
-	rootCmd.PersistentFlags().StringVarP(&listenAddr, "listen", "", ":8080", "服务运行监听地址端口")
+	rootCmd.PersistentFlags().StringVarP(&listenAddr, "listen", "", ":80", "服务运行监听地址端口")
 }
 
 func Execute() {

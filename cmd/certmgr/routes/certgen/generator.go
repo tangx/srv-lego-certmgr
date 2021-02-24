@@ -73,7 +73,7 @@ func applyCertificate(prov string, domains string) error {
 
 // retryApply 错误重试
 func retryApply(prov string) {
-	ch := make(chan string)
+	ch := make(chan string, 20)
 	retryChannel[prov] = ch
 
 	go func() {

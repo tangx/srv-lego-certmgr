@@ -1,8 +1,9 @@
 package global
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"github.com/tangx/goutils/viperx"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
@@ -11,7 +12,8 @@ import (
 )
 
 var (
-	Server = gin.Default()
+	Server  = gin.Default()
+	Appname = "lego-certmgr"
 )
 
 // 用于保存生成的证书，方便 GET 时快速返回。 不持久化
@@ -34,10 +36,8 @@ var Providers = map[string]legox.Provider{}
 func Initial() {
 
 	// 读取配置文件
-	err := viper.ReadInConfig()
-	if err != nil {
-		logrus.Fatal(err.Error())
-	}
+	configHome := fmt.Sprintf("$HOME/%s", Appname)
+	_ = viperx.ReadInConfig(configHome)
 	// 绑定环境变量
 	viper.AutomaticEnv()
 
@@ -62,5 +62,5 @@ func Initial() {
 
 func init() {
 	viperx.Default()
-	viperx.AddConfigPaths("$HOME/certmgr")
+	// viperx.AddConfigPaths("$HOME/lego-certmgr")
 }

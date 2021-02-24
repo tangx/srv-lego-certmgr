@@ -10,7 +10,7 @@ import (
 var root *gin.RouterGroup
 
 func AppendRoute(e *gin.Engine) {
-	root = e.Group("certmgr")
+	root = e.Group(global.Appname)
 
 	for provider := range global.Providers {
 		certgen.AppendRoute(root, provider)

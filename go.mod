@@ -10,5 +10,6 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/tangx/goutils v1.2.5
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9 // indirect
+	golang.org/x/sys v0.0.0-20210223212115-eede4237b368 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )

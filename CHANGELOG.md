@@ -5,7 +5,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.5](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.4...v0.2.5)
+
+
 # [0.2.4](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.3...v0.2.4)
+
 
 
 # [0.2.3](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.2...v0.2.3)

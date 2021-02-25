@@ -5,7 +5,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.6](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.5...v0.2.6)
+
+### Bug Fixes
+
+* **fix** add healty router ([0549e83](https://github.com/tangx/srv-lego-certmgr/commit/0549e83ec2b677baddae908b1a714aef865653d4))
+
+
+
 # [0.2.5](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.4...v0.2.5)
+
 
 
 # [0.2.4](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.3...v0.2.4)

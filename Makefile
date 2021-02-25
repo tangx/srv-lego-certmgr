@@ -12,7 +12,7 @@ debug:
 	cd $(MAIN_ROOT) && go run . --dnspod
 
 build:
-	cd $(MAIN_ROOT) && go build -ldflags $(FLAGS) -o ../../bin/certmgr-$(VERSION)-$(GOOS)-$(GOARCH) .
+	cd $(MAIN_ROOT) && GGO_ENABLED=0 go build -ldflags $(FLAGS) -o ../../bin/certmgr-$(VERSION)-$(GOOS)-$(GOARCH) .
 
 buildx:
 	GOOS=darwin GOARCH=amd64 make build

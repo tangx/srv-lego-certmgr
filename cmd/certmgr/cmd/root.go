@@ -11,7 +11,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:  "certmgr",
-	Long: fmt.Sprintf("Version:\n  v%s", version.Version),
+	Long: fmt.Sprintf("Version:\n  %s", version.Version),
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		_ = cmd.Help()
 	},

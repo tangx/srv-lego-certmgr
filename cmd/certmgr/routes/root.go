@@ -5,6 +5,7 @@ import (
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/certgen"
+	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/healthy"
 )
 
 var root *gin.RouterGroup
@@ -17,5 +18,5 @@ func AppendRoute(e *gin.Engine) {
 	}
 
 	cert.AppendRoute(root)
-
+	healthy.AppendRoute(root)
 }

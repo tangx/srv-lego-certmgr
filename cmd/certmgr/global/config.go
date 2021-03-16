@@ -3,8 +3,8 @@ package global
 import (
 	"fmt"
 
-	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"github.com/tangx/goutils/ginx"
 	"github.com/tangx/goutils/viperx"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	Server  = gin.Default()
+	Server  = ginx.Default()
 	Appname = "lego-certmgr"
 )
 

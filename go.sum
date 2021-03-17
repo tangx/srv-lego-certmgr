@@ -371,8 +371,8 @@ github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/subosito/gotenv v1.2.0 h1:Slr1R9HxAlEKefgq5jn9U+DnETlIUa6HfgEzj0g5d7s=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
-github.com/tangx/goutils v1.3.0 h1:D9Ah5hkcCpxpkLuMGd177nXlBVbcwQkvmquVRAxzWvQ=
-github.com/tangx/goutils v1.3.0/go.mod h1:4Fm5Q67JhZjR6tfYCGPw66vfMJiO8bsk8/l1gw36gdk=
+github.com/tangx/goutils v1.3.2 h1:GgtSjHGBAr9/1Y6MU6lb8fOYA7DY6HhaWTJf0S07l7k=
+github.com/tangx/goutils v1.3.2/go.mod h1:4Fm5Q67JhZjR6tfYCGPw66vfMJiO8bsk8/l1gw36gdk=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
 github.com/transip/gotransip/v6 v6.2.0/go.mod h1:pQZ36hWWRahCUXkFWlx9Hs711gLd8J4qdgLdRzmtY+g=
 github.com/uber-go/atomic v1.3.2/go.mod h1:/Ct5t2lcmbJ4OSe/waGBoaVvVqtO0bmtfVNex1PFV8g=

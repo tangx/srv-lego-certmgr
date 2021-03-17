@@ -1,2 +1,5 @@
 ### healthy
 GET http://127.0.0.1/lego-certmgr/healthy
+
+### list
+GET http://127.0.0.1/lego-certmgr/list

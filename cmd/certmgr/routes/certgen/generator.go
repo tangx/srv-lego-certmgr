@@ -1,7 +1,6 @@
 package certgen
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -20,7 +19,7 @@ var (
 
 func ApplyCertificateHandler(c *gin.Context) {
 
-	domains := sortDomains(c.Param("domains"))
+	domains := sortDomains(c.Param("domain"))
 
 	// 如果已存在证书，且在有效期内
 	// 则直接返回
@@ -50,12 +49,6 @@ func ApplyCertificateHandler(c *gin.Context) {
 	}()
 
 	httpresponse.StatusDefault(c, http.StatusCreated, "domain cert created", nil)
-}
-
-// GetHandler 303 redirect
-func GetHandler(c *gin.Context) {
-	domains := sortDomains(c.Param("domains"))
-	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/certmgr/query/%s", domains))
 }
 
 func applyCertificate(prov string, domains string) error {

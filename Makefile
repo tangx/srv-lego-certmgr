@@ -9,7 +9,7 @@ FLAGS := "-X $(GOMOD)/version.Version=$(VERSION)-sha.$(LAST_COMMIT)"
 MAIN_ROOT := cmd/certmgr
 
 debug:
-	cd $(MAIN_ROOT) && go run . 
+	cd $(MAIN_ROOT) && go run .
 
 build:
 	cd $(MAIN_ROOT) && GGO_ENABLED=0 go build -ldflags $(FLAGS) -o ../../bin/certmgr-$(VERSION)-$(GOOS)-$(GOARCH) .

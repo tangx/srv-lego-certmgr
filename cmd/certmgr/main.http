@@ -3,3 +3,13 @@ GET http://127.0.0.1/lego-certmgr/healthy
 
 ### list
 GET http://127.0.0.1/lego-certmgr/list
+
+
+### query
+GET http://127.0.0.1/lego-certmgr/query/w3c.example.com
+
+### create
+POST http://127.0.0.1/lego-certmgr/gen/alidns/w3c.example.com
+
+### get
+GET http://127.0.0.1/lego-certmgr/gen/alidns/w3c.example.com

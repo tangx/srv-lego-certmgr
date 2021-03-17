@@ -5,7 +5,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.9](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.8...v0.2.9)
+
+### Bug Fixes
+
+* **fix** 修复 create 重定向错误 ([56d7e01](https://github.com/tangx/srv-lego-certmgr/commit/56d7e0181b8ba694157b2b142c3dac5b58b6b1ec))
+
+
+
 # [0.2.8](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.7...v0.2.8)
+
 
 
 # [0.2.7](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.6...v0.2.7)

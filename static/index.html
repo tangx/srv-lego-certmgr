@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>srv-lego-certmgr</title>
+
+
+</head>
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- 
+        1. 访问地址  /lego-certmgr/list 拿到所有列表清单
+            + axios
+        2. 使用 js 渲染 table
+            + vue: v-for
+            + vue: methods 函数 // 字符串拼接
+        3. 刷新加载
+            + vue: mounted
+    -->
+    <div id="certs">
+
+
+        <table style="width:80%" >
+            <tr>
+                <th>
+                    <a >域名(点击查看详情)</a>
+                </th>
+                <th>
+                    过期时间
+                </th>
+                <th>
+                    <a>点击下载</a>
+                </th>
+            </tr>
+            <tr v-for="(expire_date, domain) in certsMap">
+                <th>
+                    <a :href="queryURL(domain)">{{ domain }}</a>
+                </th>
+                <th>
+                    {{ expire_date }}
+                </th>
+                <th>
+                    <a :href="downloadURL(domain)">download</a>
+                </th>
+            </tr>
+        </table>
+
+    </div>
+
+
+    <script>
+        new Vue({
+            el: '#certs',
+            data: {
+                certsMap: {}
+            },
+            methods:{
+                listCerts:function(){
+                    var that = this;
+                    axios.get("/lego-certmgr/list")
+                    .then(function(response){
+                        console.log(response);
+                        that.certsMap = response.Data ;
+                    },function(err){})
+                },
+                queryURL: function(domain) {
+                    return "/lego-certmgr/query/"+domain
+                },
+                downloadURL: function(domain){
+                    return "/lego-certmgr/query/"+domain+"/download"
+                }
+            },
+            mounted:function(){
+                this.listCerts();
+            }
+
+        })
+
+    </script>
+</body>
+</html>

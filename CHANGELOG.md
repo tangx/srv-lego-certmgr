@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.3.0](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.9...v0.3.0)
+
+### Features
+
+* **feat** 增加 /index/index.html ([db60de7](https://github.com/tangx/srv-lego-certmgr/commit/db60de7d55b647b3abdfa15952cc2ee889846965))
+
+
+
 # [0.2.9](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.8...v0.2.9)
 
 ### Bug Fixes

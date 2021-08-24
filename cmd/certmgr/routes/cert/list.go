@@ -18,3 +18,7 @@ func ListHanlder(c *gin.Context) {
 	httpresponse.StatusOK(c, m)
 
 }
+
+func ListAllHanlder(c *gin.Context) {
+	httpresponse.StatusOK(c, global.CertMap)
+}

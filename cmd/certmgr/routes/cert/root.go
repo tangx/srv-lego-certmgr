@@ -16,4 +16,5 @@ func AppendRoute(rg *gin.RouterGroup) {
 	}
 
 	rg.GET("/list", ListHanlder)
+	rg.GET("/list-all", ListAllHanlder)
 }

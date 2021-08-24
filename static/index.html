@@ -1,86 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>srv-lego-certmgr</title>
-
-
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3.2.4/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 </head>
+
 <body>
+  <div id="app">
+    <!-- 申请域名证书 -->
+    <h2>申请域名证书</h2>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <!-- 
-        1. 访问地址  /lego-certmgr/list 拿到所有列表清单
-            + axios
-        2. 使用 js 渲染 table
-            + vue: v-for
-            + vue: methods 函数 // 字符串拼接
-        3. 刷新加载
-            + vue: mounted
-    -->
-    <div id="certs">
-
-
-        <table style="width:80%" >
-            <tr>
-                <th>
-                    <a >域名(点击查看详情)</a>
-                </th>
-                <th>
-                    过期时间
-                </th>
-                <th>
-                    <a>点击下载</a>
-                </th>
-            </tr>
-            <tr v-for="(expire_date, domain) in certsMap">
-                <th>
-                    <a :href="queryURL(domain)">{{ domain }}</a>
-                </th>
-                <th>
-                    {{ expire_date }}
-                </th>
-                <th>
-                    <a :href="downloadURL(domain)">download</a>
-                </th>
-            </tr>
-        </table>
-
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">子域名</span>
+      <input type="text" placeholder="*.subdomain" v-model="applyInfo.subDomain">
+      <span class="input-group-text" id="basic-addon1">.</span>
+      <select v-model="applyInfo.rootDomain">
+        <option value="example.com">example.com</option>
+      </select>
+      <button type="button" class="btn btn-success" :disabled="isApplyDisabled" @click="doApplyCert">申请 {{ fullDomain
+        }}</button>
     </div>
 
+    <!-- 展示域名证书 -->
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon2">提示过期天数</span><input type="number"
+        v-model="displayInfo.deltaDays">
+      <button type="button" class="btn btn-warning" @click="doGetAllCert">刷新缓存</button>
 
-    <script>
-        new Vue({
-            el: '#certs',
-            data: {
-                certsMap: {}
-            },
-            methods:{
-                listCerts:function(){
-                    var that = this;
-                    axios.get("/lego-certmgr/list")
-                    .then(function(response){
-                        console.log(response);
-                        that.certsMap = response.Data ;
-                    },function(err){})
-                },
-                queryURL: function(domain) {
-                    return "/lego-certmgr/query/"+domain
-                },
-                downloadURL: function(domain){
-                    return "/lego-certmgr/query/"+domain+"/download"
-                }
-            },
-            mounted:function(){
-                this.listCerts();
-            }
+    </div>
+    <hr>
+    <div>
 
-        })
-
-    </script>
+      <!-- table -->
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">domain</th>
+              <th scope="col">notAfter</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="cert in certsMap" :key="cert.domain" :class="getClassColor(cert.not_after)">
+              <td scope="row">{{ cert.domain }}</td>
+              <td>{{ cert.not_after}}</td>
+              <td>
+                <a :href="getDownloadURL(cert.domain)">
+                  <button type="button" class="btn btn-success">下载</button>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
+
+
+<script lang='ts'>
+  const app = Vue.createApp({
+    // 数据
+    data() {
+      return {
+        BASE_URL: "",
+        name: "zhangsan",
+        applyInfo: {
+          subDomain: "",
+          rootDomain: ""
+        },
+        certsMap: {},
+        displayInfo: {
+          now: new Date(),
+          deltaDays: 20,
+        }
+      }
+    },
+
+    // 计算属性
+    computed: {
+      fullDomain() {
+        return `${this.applyInfo.subDomain}.${this.applyInfo.rootDomain}`
+      },
+      isApplyDisabled() {
+        return this.applyInfo.subDomain.length === 0
+      },
+      deadTime() {
+        const deadtime = new Date()
+        deadtime.setDate(deadtime.getDate() + this.displayInfo.deltaDays)
+
+        // console.log("deadTime flushed")
+        return deadtime
+      }
+
+    },
+
+    // 方法
+    methods: {
+      doApplyCert() {
+        const uri = `${this.BASE_URL}/lego-certmgr/gen/alidns/${this.fullDomain}`
+        // console.log(uri)
+        axios.post(uri)
+      },
+
+      doGetAllCert() {
+        const uri = `${this.BASE_URL}/lego-certmgr/list-all`
+        // var that = this;
+        axios.get(uri)
+          .then((response) => {
+            // console.log("response::::", response.data);
+            this.certsMap = response.data.Data;
+            // console.log("this.certsMap ===> ", this.certsMap);
+          })
+      },
+      getDownloadURL(domain) {
+        return `${this.BASE_URL}/lego-certmgr/query/${domain}/download`
+      },
+      getClassColor(expired) {
+
+        const dtime = new Date(expired)
+
+        if (dtime < this.deadTime) {
+          return "table-danger"
+        }
+        return ""
+      }
+    },
+
+    mounted: function () {
+      this.doGetAllCert();
+    },
+
+  })
+
+  app.mount('#app')
+</script>

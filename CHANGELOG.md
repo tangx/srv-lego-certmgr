@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.3.1](https://github.com/tangx/srv-lego-certmgr/compare/v0.3.0...v0.3.1)
+
+### Bug Fixes
+
+* **fix** 增加跨域支持 ([d1c296f](https://github.com/tangx/srv-lego-certmgr/commit/d1c296f814828177d017c47606cbfea9c3d3dc59))
+
+
+
 # [0.3.0](https://github.com/tangx/srv-lego-certmgr/compare/v0.2.9...v0.3.0)
 
 ### Features

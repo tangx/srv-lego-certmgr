@@ -59,11 +59,13 @@ ADMIN_EMAIL : xxxx@example.com
 **路由**
 
 ```
+[GIN-debug] GET    /index/*filepath          --> 首页
+[GIN-debug] GET    /lego-certmgr/query/:domain --> 查询域名证书信息
+[GIN-debug] GET    /lego-certmgr/query/:domain/download --> 下载域名证书
+[GIN-debug] GET    /lego-certmgr/list        --> 获取域名证书列表
+[GIN-debug] GET    /lego-certmgr/healthy     --> 健康检查
 [GIN-debug] POST   /certmgr/gen/:provider/:domain   --> 创建证书
 [GIN-debug] GET    /certmgr/gen/:provider/:domain   --> 查询证书， 303 redirect
-[GIN-debug] GET    /certmgr/query/:domain --> 查询证书
-[GIN-debug] GET    /certmgr/query/:domain/download --> 下载证书
-[GIN-debug] GET    /certmgr/list        --> 查询缓存中生成的所有证书
 ```
 
 > provider: `alidns` or `dnspod`

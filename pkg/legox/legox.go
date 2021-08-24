@@ -1,8 +1,6 @@
 package legox
 
 import (
-	"fmt"
-
 	"github.com/go-acme/lego/v4/certcrypto"
 	"github.com/go-acme/lego/v4/certificate"
 	"github.com/go-acme/lego/v4/challenge"
@@ -76,8 +74,8 @@ func (lx *LegoxClient) ApplyCertificate(domains ...string) (Certificate, error) 
 		Domain:        certs.Domain,
 		CertURL:       certs.CertURL,
 		CertStableURL: certs.CertStableURL,
-		PrivateKey:    fmt.Sprintf("%s", certs.PrivateKey),
-		Certificate:   fmt.Sprintf("%s", certs.Certificate),
+		PrivateKey:    string(certs.PrivateKey),
+		Certificate:   string(certs.Certificate),
 	}
 
 	c.SetValidationTime()

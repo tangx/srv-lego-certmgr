@@ -9,7 +9,7 @@ FLAGS := "-X $(GOMOD)/version.Version=$(VERSION)-sha.$(LAST_COMMIT)"
 MAIN_ROOT := cmd/certmgr
 
 debug:
-	cd $(MAIN_ROOT) && go run . --alidns
+	cd $(MAIN_ROOT) && go run . 
 
 help:
 	cd $(MAIN_ROOT) && go run . --help

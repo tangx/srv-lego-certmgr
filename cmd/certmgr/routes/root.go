@@ -8,7 +8,6 @@ import (
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/certgen"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/healthy"
-	"github.com/tangx/srv-lego-certmgr/static"
 )
 
 var root *gin.RouterGroup
@@ -19,7 +18,8 @@ func AppendRoute(e *gin.Engine) {
 	e.Use(cros())
 
 	// 静态页面
-	e.StaticFS("./index", http.FS(static.Index))
+	// main.go 的相对路径
+	e.StaticFile("", "./static/index.html")
 	root = e.Group(global.Appname)
 
 	for provider := range global.Providers {

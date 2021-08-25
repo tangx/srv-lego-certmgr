@@ -14,6 +14,10 @@
 
 ## 使用说明
 
+访问 `http(s)://yourdomain.com` 可以进入图形化界面
+
+![index.png](./docs/img/index.png)
+
 ### 下载 
 
 访问 Github 下载最新版 lego-certmgr [GitHub Release - lego-certmgr](https://github.com/tangx/srv-lego-certmgr/releases/latest)

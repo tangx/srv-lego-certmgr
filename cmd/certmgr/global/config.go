@@ -44,7 +44,9 @@ func Initial() {
 	if DnspodEnabled {
 		qcloud_email := viper.GetString("ADMIN_EMAIL")
 		qcloud_token := viper.GetString("DNSPOD_API_KEY")
-		LegoDnspod := dnspodprovider.NewDefualtClient(qcloud_email, qcloud_token)
+		LegoDnspod := dnspodprovider.NewDefualtClient(
+			qcloud_email,
+			qcloud_token)
 
 		Providers["dnspod"] = LegoDnspod
 	}
@@ -53,7 +55,10 @@ func Initial() {
 		alidns_accesskey := viper.GetString("ALICLOUD_ACCESS_KEY")
 		alidns_secretkey := viper.GetString("ALICLOUD_SECRET_KEY")
 		alidns_email := viper.GetString("ADMIN_EMAIL")
-		LegoAliyun := alidnsprovider.NewDefaultClient(alidns_email, alidns_accesskey, alidns_secretkey)
+		LegoAliyun := alidnsprovider.NewDefaultClient(
+			alidns_email,
+			alidns_accesskey,
+			alidns_secretkey)
 
 		Providers["alidns"] = LegoAliyun
 	}

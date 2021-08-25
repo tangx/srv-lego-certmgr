@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Lego域名管理平台</title>
   <script src="https://unpkg.com/vue@3.2.4/dist/vue.global.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -14,52 +14,52 @@
 
 <body>
   <div id="app">
-    <!-- 申请域名证书 -->
-    <h2>申请域名证书</h2>
+    <div class="container">
+      <h2>Lego域名管理平台</h2>
+      <!-- 申请域名证书 -->
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">子域名</span>
+        <input type="text" placeholder="*.subdomain" v-model="applyInfo.subDomain">
+        <span class="input-group-text" id="basic-addon1">.</span>
+        <select v-model="applyInfo.rootDomain">
+          <option value="example.com">example.com</option>
+        </select>
+        <button type="button" class="btn btn-success" :disabled="isApplyDisabled" @click="doApplyCert">申请 {{ fullDomain
+          }}</button>
+      </div>
 
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1">子域名</span>
-      <input type="text" placeholder="*.subdomain" v-model="applyInfo.subDomain">
-      <span class="input-group-text" id="basic-addon1">.</span>
-      <select v-model="applyInfo.rootDomain">
-        <option value="example.com">example.com</option>
-      </select>
-      <button type="button" class="btn btn-success" :disabled="isApplyDisabled" @click="doApplyCert">申请 {{ fullDomain
-        }}</button>
-    </div>
-
-    <!-- 展示域名证书 -->
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon2">提示过期天数</span><input type="number"
-        v-model="displayInfo.deltaDays">
-      <button type="button" class="btn btn-warning" @click="doGetAllCert">刷新缓存</button>
-
-    </div>
-    <hr>
-    <div>
-
-      <!-- table -->
+      <!-- 展示域名证书 -->
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">提示过期天数</span><input type="number"
+          v-model="displayInfo.deltaDays">
+        <button type="button" class="btn btn-warning" @click="doGetAllCert">刷新缓存</button>
+      </div>
+      <hr>
       <div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">domain</th>
-              <th scope="col">notAfter</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="cert in certsMap" :key="cert.domain" :class="getClassColor(cert.not_after)">
-              <td scope="row">{{ cert.domain }}</td>
-              <td>{{ cert.not_after}}</td>
-              <td>
-                <a :href="getDownloadURL(cert.domain)">
-                  <button type="button" class="btn btn-success">下载</button>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+        <!-- 展示表格 -->
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">domain</th>
+                <th scope="col">notAfter</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="cert in certsMap" :key="cert.domain" :class="getClassColor(cert.not_after)">
+                <td scope="row">{{ cert.domain }}</td>
+                <td>{{ cert.not_after}}</td>
+                <td>
+                  <a :href="getDownloadURL(cert.domain)">
+                    <button type="button" class="btn btn-success">下载</button>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

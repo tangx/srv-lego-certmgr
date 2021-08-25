@@ -16,22 +16,22 @@
   <div id="app">
     <div class="container">
       <h2>Lego域名管理平台</h2>
+
       <!-- 申请域名证书 -->
       <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">子域名</span>
+        <span class="input-group-text">子域名</span>
         <input type="text" placeholder="*.subdomain" v-model="applyInfo.subDomain">
-        <span class="input-group-text" id="basic-addon1">.</span>
+        <span class="input-group-text">.</span>
         <select v-model="applyInfo.rootDomain">
-          <option value="example.com">example.com</option>
+          <option v-for="(provider,domain) in domainProviderMapping" :value="domain">{{domain}}</option>
         </select>
         <button type="button" class="btn btn-success" :disabled="isApplyDisabled" @click="doApplyCert">申请 {{ fullDomain
-          }}</button>
+          }} - {{ dnsProvider }}</button>
       </div>
 
       <!-- 展示域名证书 -->
       <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">提示过期天数</span><input type="number"
-          v-model="displayInfo.deltaDays">
+        <span class="input-group-text">提示过期天数</span><input type="number" v-model="displayInfo.deltaDays">
         <button type="button" class="btn btn-warning" @click="doGetAllCert">刷新缓存</button>
       </div>
       <hr>
@@ -83,7 +83,8 @@
         displayInfo: {
           now: new Date(),
           deltaDays: 20,
-        }
+        },
+        domainProviderMapping: {}
       }
     },
 
@@ -101,6 +102,9 @@
 
         // console.log("deadTime flushed")
         return deadtime
+      },
+      dnsProvider() {
+        return this.domainProviderMapping[this.applyInfo.rootDomain]
       }
 
     },
@@ -127,18 +131,31 @@
         return `${this.BASE_URL}/lego-certmgr/query/${domain}/download`
       },
       getClassColor(expired) {
-
         const dtime = new Date(expired)
-
         if (dtime < this.deadTime) {
           return "table-danger"
         }
         return ""
+      },
+      async doGetDomainProviderMapping() {
+        const uri = `${this.BASE_URL}/lego-certmgr/provider/map`
+        await axios.get(uri)
+          .then((response) => {
+            this.domainProviderMapping = response.data.Data;
+
+            // 设置默认值
+            this.applyInfo.rootDomain = Object.keys(this.domainProviderMapping)[0];
+          })
+      },
+      getProvider() {
+        return this.domainProviderMapping[this.applyInfo.rootDomain]
       }
+
     },
 
     mounted: function () {
       this.doGetAllCert();
+      this.doGetDomainProviderMapping();
     },
 
   })

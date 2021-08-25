@@ -8,6 +8,7 @@ import (
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/certgen"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/healthy"
+	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/provider"
 )
 
 var root *gin.RouterGroup
@@ -28,6 +29,7 @@ func AppendRoute(e *gin.Engine) {
 
 	cert.AppendRoute(root)
 	healthy.AppendRoute(root)
+	provider.AppendRoute(root)
 }
 
 // 跨域

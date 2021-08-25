@@ -4,17 +4,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	root *gin.RouterGroup
-)
-
-func AppendRoute(rg *gin.RouterGroup) {
-	root = rg.Group("query")
+func AppendRoute(root *gin.RouterGroup) {
+	rg := root.Group("query")
 	{
-		root.GET("/:domain", GetHandler)
-		root.GET("/:domain/download", DownloadHandler)
+		rg.GET("/:domain", GetHandler)
+		rg.GET("/:domain/download", DownloadHandler)
 	}
 
-	rg.GET("/list", ListHanlder)
-	rg.GET("/list-all", ListAllHanlder)
+	root.GET("/list", ListHanlder)
+	root.GET("/list-all", ListAllHanlder)
 }

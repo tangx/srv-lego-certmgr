@@ -126,6 +126,8 @@ github.com/go-playground/validator/v10 v10.9.0/go.mod h1:74x4gJWsvQexRdW8Pn3dXSG
 github.com/go-resty/resty/v2 v2.1.1-0.20191201195748-d7b97669fe48/go.mod h1:dZGr0i9PLlaaTD4H/hoZIDjQ+r6xq8mgbRzHZf7f2J8=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
+github.com/goccy/go-json v0.7.6 h1:H0wq4jppBQ+9222sk5+hPLL25abZQiRuQ6YPnjO9c+A=
+github.com/goccy/go-json v0.7.6/go.mod h1:6MelG93GURQebXPDq3khkgXZkazVtN9CRI+MGFi0w8I=
 github.com/gofrs/uuid v3.2.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/gogo/protobuf v1.2.0/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
@@ -391,6 +393,10 @@ github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5Cc
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/subosito/gotenv v1.2.0 h1:Slr1R9HxAlEKefgq5jn9U+DnETlIUa6HfgEzj0g5d7s=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
+github.com/tangx/ginbind v0.0.0-20210819003448-0d0b8efa1a23 h1:CvKlWmCp/iULTOstYLZnjXEpfLD0Xc6bBPTglosd4h4=
+github.com/tangx/ginbind v0.0.0-20210819003448-0d0b8efa1a23/go.mod h1:r/hu8zvI6VNRARFJG/Ag/sDkrIJcXUqS4D89sLsbxYQ=
+github.com/tangx/ginbinder v0.0.1 h1:BBf+9/1H/GCXODPFuKbdBAWTNfXphvhCWqrQsVS97mQ=
+github.com/tangx/ginbinder v0.0.1/go.mod h1:+LRYTK63ajSVUgrliuBuSUbj61y22GBthW4gxqtETOs=
 github.com/tangx/goutils v1.3.2 h1:GgtSjHGBAr9/1Y6MU6lb8fOYA7DY6HhaWTJf0S07l7k=
 github.com/tangx/goutils v1.3.2/go.mod h1:4Fm5Q67JhZjR6tfYCGPw66vfMJiO8bsk8/l1gw36gdk=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=

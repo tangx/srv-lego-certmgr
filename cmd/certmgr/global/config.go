@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/tangx/goutils/ginx"
 	"github.com/tangx/goutils/viperx"
+	"github.com/tangx/srv-lego-certmgr/pkg/container"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/dnspodprovider"
@@ -15,6 +16,8 @@ var (
 	Server  = ginx.Default()
 	Appname = "lego-certmgr"
 )
+
+var DPmapping = container.NewDomainProviderMap()
 
 // 用于保存生成的证书，方便 GET 时快速返回。 不持久化
 var CertMap = make(map[string](legox.Certificate))

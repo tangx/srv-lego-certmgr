@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.5.0](https://github.com/tangx/srv-lego-certmgr/compare/v0.4.2...v0.5.0)
+
+### Features
+
+* **feat** add client sdk ([8354e61](https://github.com/tangx/srv-lego-certmgr/commit/8354e61ebb006c35045b0ae2cff11f6b23426244))
+
+
+
 # [0.4.2](https://github.com/tangx/srv-lego-certmgr/compare/v0.4.1...v0.4.2)
 
 ### Bug Fixes

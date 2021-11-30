@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"path/filepath"
+	"strings"
 
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 )
@@ -14,8 +14,13 @@ type Client struct {
 	Endpoint string `yaml:"endpoint,omitempty" json:"endpoint,omitempty" env:"endpoint,omitempty"`
 }
 
-func (lego *Client) url(uri string) string {
-	return filepath.Join(lego.Endpoint, uri)
+func (lego *Client) urlJoin(uri string) string {
+
+	return fmt.Sprintf(
+		"%s/%s",
+		strings.TrimRight(lego.Endpoint, "/"),
+		strings.TrimLeft(uri, "/"),
+	)
 }
 
 func (lego *Client) GetCertByName(provider, domain string) (*legox.Certificate, error) {
@@ -52,7 +57,7 @@ func (lego *Client) CreateCert(provider, domain string) (bool, error) {
 }
 
 func (lego *Client) doHandle(method string, uri string, obj interface{}) error {
-	url := lego.url(uri)
+	url := lego.urlJoin(uri)
 
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {

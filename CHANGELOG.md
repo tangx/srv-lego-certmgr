@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.5.1](https://github.com/tangx/srv-lego-certmgr/compare/v0.5.0...v0.5.1)
+
+### Bug Fixes
+
+* **fix** url join error ([9029385](https://github.com/tangx/srv-lego-certmgr/commit/9029385da1a2a2923a3e3031f4070ae500dd7be6))
+
+
+
 # [0.5.0](https://github.com/tangx/srv-lego-certmgr/compare/v0.4.2...v0.5.0)
 
 ### Features

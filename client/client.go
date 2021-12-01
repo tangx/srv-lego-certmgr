@@ -23,8 +23,8 @@ func (lego *Client) urlJoin(uri string) string {
 	)
 }
 
-func (lego *Client) GetCertByName(provider, domain string) (*legox.Certificate, error) {
-	uri := fmt.Sprintf("/lego-certmgr/gen/%s/%s", provider, domain)
+func (lego *Client) GetDomainCert(domain string) (*legox.Certificate, error) {
+	uri := fmt.Sprintf("/lego-certmgr/query/%s", domain)
 	resp := &GetCertResponse{}
 
 	err := lego.doHandle(http.MethodGet, uri, resp)

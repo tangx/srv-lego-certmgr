@@ -1,11 +1,10 @@
 package legox
 
 import (
-	"crypto/x509"
-	"encoding/pem"
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"github.com/tangx/srv-lego-certmgr/pkg/x509util"
 )
 
 type Certificate struct {
@@ -25,18 +24,10 @@ func (c *Certificate) SetValidationTime() {
 		return
 	}
 
-	data := []byte(c.Certificate)
-
-	// https://blog.csdn.net/u011228889/article/details/81480617
-	blk, _ := pem.Decode(data)
-	if blk == nil {
-		logrus.Error("pem decode failed: ")
-		return
-	}
-
-	x509cert, err := x509.ParseCertificate(blk.Bytes)
+	x509cert, err := x509util.ParseCertificate(c.Certificate)
 	if err != nil {
 		logrus.Error(err)
+
 		return
 	}
 

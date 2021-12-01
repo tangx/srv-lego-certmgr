@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.5.2](https://github.com/tangx/srv-lego-certmgr/compare/v0.5.1...v0.5.2)
+
+### Bug Fixes
+
+* **fix** get domain cert ([977e7bc](https://github.com/tangx/srv-lego-certmgr/commit/977e7bcc5a3638350b4940c4a908cb9c1ee9dd49))
+
+
+
 # [0.5.1](https://github.com/tangx/srv-lego-certmgr/compare/v0.5.0...v0.5.1)
 
 ### Bug Fixes

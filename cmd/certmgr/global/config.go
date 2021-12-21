@@ -10,8 +10,6 @@ import (
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/dnspodprovider"
-	"github.com/tangx/srv-lego-certmgr/pkg/storage"
-	"github.com/tangx/srv-lego-certmgr/pkg/storage/filesystem"
 )
 
 var (
@@ -37,22 +35,6 @@ var Providers = map[string]legox.Provider{}
 
 func Initial() {
 	InitialProvider()
-	InitialStorager()
-}
-
-var BackendStorager storage.Storager
-
-// initial backend storage
-func InitialStorager() {
-	// BackendStorageClass
-	class := viper.GetString("BackendStorageClass")
-	switch class {
-	case "filesystem":
-		//todo
-		dir := viper.GetString("StorageFilesystemDir")
-		BackendStorager = filesystem.NewStorager(dir)
-	}
-
 }
 
 // initial dns provider

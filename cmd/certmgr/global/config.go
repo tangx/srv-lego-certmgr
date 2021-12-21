@@ -1,12 +1,9 @@
 package global
 
 import (
-	"fmt"
-
-	"github.com/spf13/viper"
-	"github.com/tangx/goutils/viperx"
-	"github.com/tangx/srv-lego-certmgr/pkg/container"
-	"github.com/tangx/srv-lego-certmgr/pkg/legox"
+	"github.com/go-jarvis/jarvis"
+	"github.com/go-jarvis/jarvis/pkg/appctx"
+	"github.com/go-jarvis/rum-gonic/confhttp"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/dnspodprovider"
 )
@@ -16,60 +13,47 @@ var (
 	Appname = "lego-certmgr"
 )
 
-var DPmapping = container.NewDomainProviderMap()
-
-// 任务队列
 var (
-	CertGenerateJob = make(map[string]error)
+	server = &confhttp.Server{}
+	alidns = &alidnsprovider.Config{}
+	dnspod = &dnspodprovider.Config{}
 )
 
-// Flags
 var (
-	DnspodEnabled bool
-	AlidnsEnabled bool
+	App = jarvis.New().WithOptions(
+		appctx.WithName(Appname),
+		appctx.WithRoot("../.."),
+	)
 )
-
-// OldProviders
-var OldProviders = map[string]legox.Provider{}
-
-func Initial() {
-	InitialProvider()
-}
-
-// initial dns provider
-func InitialProvider() {
-
-	// 读取配置文件
-	configHome := fmt.Sprintf("$HOME/%s", Appname)
-	_ = viperx.ReadInConfig(configHome)
-	// 绑定环境变量
-	viper.AutomaticEnv()
-
-	if DnspodEnabled {
-		qcloud_email := viper.GetString("ADMIN_EMAIL")
-		qcloud_token := viper.GetString("DNSPOD_API_KEY")
-		LegoDnspod := dnspodprovider.NewDefualtClient(
-			qcloud_email,
-			qcloud_token)
-
-		OldProviders["dnspod"] = LegoDnspod
-	}
-
-	if AlidnsEnabled {
-		alidns_accesskey := viper.GetString("ALICLOUD_ACCESS_KEY")
-		alidns_secretkey := viper.GetString("ALICLOUD_SECRET_KEY")
-		alidns_email := viper.GetString("ADMIN_EMAIL")
-		LegoAliyun := alidnsprovider.NewDefaultClient(
-			alidns_email,
-			alidns_accesskey,
-			alidns_secretkey)
-
-		OldProviders["alidns"] = LegoAliyun
-	}
-
-}
 
 func init() {
-	viperx.Default()
-	// viperx.AddConfigPaths("$HOME/lego-certmgr")
+	config := &struct {
+		HttpServer *confhttp.Server
+		Alidns     *alidnsprovider.Config
+		Dnspod     *dnspodprovider.Config
+	}{
+		HttpServer: server,
+		Alidns:     alidns,
+		Dnspod:     dnspod,
+	}
+
+	_ = App.Conf(config)
+}
+
+func Server() *confhttp.Server {
+	return server
+}
+
+func Providers() []string {
+	p := make([]string, 0)
+
+	if alidns.Enabled {
+		p = append(p, "alidns")
+	}
+
+	if dnspod.Enabled {
+		p = append(p, "dnspod")
+	}
+
+	return p
 }

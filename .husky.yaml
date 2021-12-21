@@ -1,14 +1,14 @@
 
-hooks:
-  pre-commit:
-    - golangci-lint run
-    - husky lint-staged
-  commit-msg:
-    - husky lint-commit
+# hooks:
+#   pre-commit:
+#     - golangci-lint run
+#     - husky lint-staged
+#   commit-msg:
+#     - husky lint-commit
 
-lint-staged:
-  "*.go":
-    - gofmt -l -w
+# lint-staged:
+#   "*.go":
+#     - gofmt -l -w
 
-lint-commit:
-  email: "^(.+)$"
+# lint-commit:
+#   email: "^(.+)$"

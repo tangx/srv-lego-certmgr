@@ -4,6 +4,7 @@ import (
 	"github.com/go-jarvis/jarvis"
 	"github.com/go-jarvis/jarvis/pkg/appctx"
 	"github.com/go-jarvis/rum-gonic/confhttp"
+	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/apis"
 )
 
 var (
@@ -23,4 +24,9 @@ func init() {
 	}
 
 	_ = App.Conf(config)
+}
+
+func Server() *confhttp.Server {
+	server.Register(apis.BaseRouterGroup)
+	return server
 }

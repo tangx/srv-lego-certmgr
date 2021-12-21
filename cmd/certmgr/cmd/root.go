@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
-	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes"
 	"github.com/tangx/srv-lego-certmgr/version"
 )
 
@@ -17,8 +16,8 @@ var rootCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		global.Initial()
-		routes.AppendRoute(global.Server)
-		_ = global.Server.Run(listenAddr)
+		// routes.AppendRoute(global.Server)
+		// _ = global.Server.Run(listenAddr)
 	},
 }
 

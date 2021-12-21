@@ -2,11 +2,16 @@ package main
 
 import (
 	"github.com/tangx/goutils/logx"
-	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/cmd"
+	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 )
 
 func main() {
-	cmd.Execute()
+	// cmd.Execute()
+
+	global.App.Run(
+		global.Server(),
+	)
+
 }
 
 func init() {

@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/spf13/viper"
-	"github.com/tangx/goutils/ginx"
 	"github.com/tangx/goutils/viperx"
 	"github.com/tangx/srv-lego-certmgr/pkg/container"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
@@ -13,7 +12,7 @@ import (
 )
 
 var (
-	Server  = ginx.Default()
+	// Server  = ginx.Default()
 	Appname = "lego-certmgr"
 )
 

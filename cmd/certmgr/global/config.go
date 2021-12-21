@@ -3,7 +3,6 @@ package global
 import (
 	"fmt"
 
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"github.com/tangx/goutils/ginx"
 	"github.com/tangx/goutils/viperx"
@@ -11,8 +10,6 @@ import (
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/dnspodprovider"
-	"github.com/tangx/srv-lego-certmgr/pkg/storage"
-	"github.com/tangx/srv-lego-certmgr/pkg/storage/filesystem"
 )
 
 var (
@@ -35,30 +32,9 @@ var (
 
 // Providers
 var Providers = map[string]legox.Provider{}
-var Storager storage.Storager
 
 func Initial() {
-	// InitialProvider()
-	InitialStorager()
-}
-
-// initial backend storage
-func InitialStorager() {
-	viper.AutomaticEnv()
-	// BackendStorageClass
-	// class := viper.GetString("BACKEND_StorageClass")
-	class := viper.GetString("BACKEND_STORAGE_CLASS")
-	switch class {
-	case "filesystem":
-		//todo
-		logrus.Error("create filesystem")
-		dir := viper.GetString("BACKEND_FILE_SYSTEM_DIR")
-		Storager = filesystem.NewStorager(dir)
-	}
-
-	if Storager == nil {
-		panic("storage is nil")
-	}
+	InitialProvider()
 }
 
 // initial dns provider

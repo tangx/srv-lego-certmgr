@@ -63,13 +63,21 @@ ADMIN_EMAIL : xxxx@example.com
 **路由**
 
 ```
-[GIN-debug] GET    /index/*filepath          --> 首页
-[GIN-debug] GET    /lego-certmgr/query/:domain --> 查询域名证书信息
-[GIN-debug] GET    /lego-certmgr/query/:domain/download --> 下载域名证书
-[GIN-debug] GET    /lego-certmgr/list        --> 获取域名证书列表
-[GIN-debug] GET    /lego-certmgr/healthy     --> 健康检查
-[GIN-debug] POST   /certmgr/gen/:provider/:domain   --> 创建证书
-[GIN-debug] GET    /certmgr/gen/:provider/:domain   --> 查询证书， 303 redirect
+WARN[0000]/Users/tangxin/data/gopath/pkg/mod/github.com/tangx/goutils@v1.3.2/viperx/viperx.go:48 github.com/tangx/goutils/viperx.ReadInConfig() Config File "config" Not Found in "[/tmp/srv-lego-certmgr/cmd/certmgr /Users/tangxin/lego-certmgr]"
+2021/12/21 15:22:17 [INFO] acme: Registering account for uyinn@live.com
+[GIN-debug] GET    /                         --> github.com/gin-gonic/gin.(*RouterGroup).StaticFile.func1 (4 handlers)
+[GIN-debug] HEAD   /                         --> github.com/gin-gonic/gin.(*RouterGroup).StaticFile.func1 (4 handlers)
+[GIN-debug] POST   /lego-certmgr/gen/dnspod/:domain --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/certgen.ApplyCertificateHandler (4 handlers)
+[GIN-debug] GET    /lego-certmgr/gen/dnspod/:domain --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.GetHandler (4 handlers)
+[GIN-debug] GET    /lego-certmgr/query/:domain --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.GetHandler (4 handlers)
+[GIN-debug] GET    /lego-certmgr/query/:domain/download --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.DownloadHandler (4 handlers)
+[GIN-debug] GET    /lego-certmgr/list        --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.ListHanlder (4 handlers)
+[GIN-debug] GET    /lego-certmgr/list-all    --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.ListAllHanlder (4 handlers)
+[GIN-debug] GET    /lego-certmgr/healthy     --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/healthy.HealthyHandler (4 handlers)
+[GIN-debug] GET    /lego-certmgr/provider/map --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/provider.getDpmHandler (4 handlers)
+[GIN-debug] POST   /lego-certmgr/provider/map --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/provider.appendDpmHandler (4 handlers)
+[GIN-debug] Listening and serving HTTP on :80
+INFO[0001]/tmp/srv-lego-certmgr/cmd/certmgr/routes/certgen/generator.go:73 github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/certgen.retryApply.func1() 启动 dnspod 重试队列
 ```
 
 > provider: `alidns` or `dnspod`

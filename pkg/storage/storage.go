@@ -9,3 +9,7 @@ type Storager interface {
 	// 读取一条数据
 	GetByName(name string) *legox.Certificate
 }
+
+type StoragerLister interface {
+	GetAllCerts() []*legox.Certificate
+}

@@ -3,9 +3,11 @@ package filesystem
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/tangx/srv-lego-certmgr/pkg/storage"
@@ -43,6 +45,7 @@ func (fs *Storager) Store(cert *legox.Certificate) bool {
 // GetByName return a cert object, or nil if error
 func (fs *Storager) GetByName(name string) *legox.Certificate {
 	file := fs.abs(name)
+	fmt.Println(file)
 	data, err := os.ReadFile(file)
 	if err != nil {
 		return nil
@@ -57,7 +60,47 @@ func (fs *Storager) GetByName(name string) *legox.Certificate {
 	return cert
 }
 
+// GetAllCerts all cert
+func (fs *Storager) GetAllCerts() []*legox.Certificate {
+	all := make([]*legox.Certificate, 0)
+	for _, name := range fs.walk() {
+		cert := fs.GetByName(name)
+
+		if cert == nil {
+			continue
+		}
+
+		all = append(all, cert)
+	}
+	return all
+}
+
 // abs return real path of domain
 func (fs *Storager) abs(name string) string {
-	return filepath.Join(fs.dir, name, ".txt")
+
+	name = filepath.Join(fs.dir, name)
+	if strings.HasSuffix(name, ".json") {
+		return name
+	}
+
+	return name + ".json"
+
+}
+
+func (fs *Storager) walk() []string {
+	files, _ := os.ReadDir(fs.dir)
+
+	all := []string{}
+	for _, f := range files {
+		if f.IsDir() {
+			continue
+		}
+
+		all = append(all, f.Name())
+
+	}
+
+	// logrus.Error("all files:=", all)
+
+	return all
 }

@@ -19,9 +19,6 @@ var (
 
 var DPmapping = container.NewDomainProviderMap()
 
-// 用于保存生成的证书，方便 GET 时快速返回。 不持久化
-var CertMap = make(map[string](legox.Certificate))
-
 // 任务队列
 var (
 	CertGenerateJob = make(map[string]error)

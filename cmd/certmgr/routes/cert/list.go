@@ -1,24 +1,20 @@
 package cert
 
 import (
-	"time"
-
 	"github.com/gin-gonic/gin"
-	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
+	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/utils"
 	"github.com/tangx/srv-lego-certmgr/pkg/httpresponse"
 )
 
 // 显示所有存在的证书与过期时间
 func ListHanlder(c *gin.Context) {
-	m := make(map[string]time.Time)
-	for _, cert := range global.CertMap {
-		m[cert.Domain] = cert.NotAfter
-	}
+	m := utils.ListValidCerts()
 
 	httpresponse.StatusOK(c, m)
 
 }
 
 func ListAllHanlder(c *gin.Context) {
-	httpresponse.StatusOK(c, global.CertMap)
+	m := utils.ListAll()
+	httpresponse.StatusOK(c, m)
 }

@@ -55,7 +55,7 @@ func applyCertificate(prov string, domains string) error {
 	dl := splitDomains(domains)
 
 	// 申请新证书
-	cert, err := global.Providers[prov].ApplyCertificate(dl...)
+	cert, err := global.OldProviders[prov].ApplyCertificate(dl...)
 	if err != nil {
 		return err
 	}

@@ -29,8 +29,8 @@ var (
 	AlidnsEnabled bool
 )
 
-// Providers
-var Providers = map[string]legox.Provider{}
+// OldProviders
+var OldProviders = map[string]legox.Provider{}
 
 func Initial() {
 	InitialProvider()
@@ -52,7 +52,7 @@ func InitialProvider() {
 			qcloud_email,
 			qcloud_token)
 
-		Providers["dnspod"] = LegoDnspod
+		OldProviders["dnspod"] = LegoDnspod
 	}
 
 	if AlidnsEnabled {
@@ -64,7 +64,7 @@ func InitialProvider() {
 			alidns_accesskey,
 			alidns_secretkey)
 
-		Providers["alidns"] = LegoAliyun
+		OldProviders["alidns"] = LegoAliyun
 	}
 
 }

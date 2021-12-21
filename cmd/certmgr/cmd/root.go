@@ -16,7 +16,7 @@ var rootCmd = &cobra.Command{
 		_ = cmd.Help()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		global.Initial()
+		global.InitialProvider()
 		routes.AppendRoute(global.Server)
 		_ = global.Server.Run(listenAddr)
 	},

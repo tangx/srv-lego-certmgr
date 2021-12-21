@@ -6,6 +6,7 @@ import (
 	"github.com/go-jarvis/rum-gonic/confhttp"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/dnspodprovider"
+	providermanager "github.com/tangx/srv-lego-certmgr/pkg/legox/provider-manager"
 )
 
 var (
@@ -13,6 +14,7 @@ var (
 	Appname = "lego-certmgr"
 )
 
+// config fields
 var (
 	server = &confhttp.Server{}
 	alidns = &alidnsprovider.Config{}
@@ -20,6 +22,8 @@ var (
 )
 
 var (
+	providers = providermanager.NewManager()
+
 	App = jarvis.New().WithOptions(
 		appctx.WithName(Appname),
 		appctx.WithRoot("../.."),
@@ -38,22 +42,25 @@ func init() {
 	}
 
 	_ = App.Conf(config)
+
+	registerProviders()
 }
 
 func Server() *confhttp.Server {
 	return server
 }
 
-func Providers() []string {
-	p := make([]string, 0)
+func registerProviders() {
 
 	if alidns.Enabled {
-		p = append(p, "alidns")
+		providers.Register(alidns.NickName(), alidns)
 	}
 
 	if dnspod.Enabled {
-		p = append(p, "dnspod")
+		providers.Register(dnspod.NickName(), dnspod)
 	}
+}
 
-	return p
+func ProviderManager() *providermanager.Manager {
+	return providers
 }

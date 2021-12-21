@@ -1,12 +1,14 @@
 package gen
 
 import (
+	"errors"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-jarvis/rum-gonic/pkg/httpx"
 	"github.com/sirupsen/logrus"
+	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/utils"
 	"github.com/tangx/srv-lego-certmgr/pkg/httpresponse"
 )
@@ -31,30 +33,35 @@ func (req *GenerateCertByDomain) Output(c *gin.Context) (interface{}, error) {
 	}
 
 	// 后台执行申请
-	// go func() {
-	// 	err := applyCertificate(req.Provider, req.Domain)
-	// 	if err != nil {
-	// 		logrus.Errorf("%s apply failed: %s ", req.Domain, err.Error())
+	go func() {
+		err := applyCertificate(req.Provider, req.Domain)
+		if err != nil {
+			logrus.Errorf("%s apply failed: %s ", req.Domain, err.Error())
 
-	// 		// 加入重试队列
-	// 		retryChannel[req.Provider] <- req.Domain
-	// 		return
-	// 	}
-	// }()
+			// 加入重试队列
+			retryChannel[req.Provider] <- req.Domain
+			return
+		}
+	}()
 
 	ret := httpresponse.RespDefault(http.StatusCreated, "domain cert created", nil)
 	return ret, nil
 }
 
-// func applyCertificate(prov string, domains string) error {
-// 	dl := splitDomains(domains)
+func applyCertificate(prov string, domain string) error {
 
-// 	// 申请新证书
-// 	cert, err := global.OldProviders[prov].ApplyCertificate(dl...)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	// 缓存结果
-// 	utils.PushCert(domains, cert)
-// 	return nil
-// }
+	// 申请新证书
+	provider := global.ProviderManager().Get(prov)
+	if provider == nil {
+		return errors.New("provider not exists")
+	}
+
+	cert, err := provider.ApplyCertificate(domain)
+	if err != nil {
+		return err
+	}
+	// 缓存结果
+	utils.PushCert(domain, cert)
+	return nil
+
+}

@@ -8,10 +8,12 @@ import (
 )
 
 type Config struct {
-	Email      string                `env:"email"`
-	AccessKey  string                `env:"access_key"`
-	SecretKey  string                `env:"secret_key"`
-	Nameserver string                `env:"nameserver"`
+	nickName   string
+	Enabled    bool                  `env:""`
+	Email      string                `env:""`
+	AccessKey  string                `env:""`
+	SecretKey  string                `env:""`
+	Nameserver string                `env:""`
 	provider   *alidns.DNSProvider   `env:"-"`
 	cli        *legox.LegoxClient    `env:"-"`
 	nsopt      dns01.ChallengeOption `env:"-"`
@@ -36,6 +38,10 @@ func NewProvider(access, secret string) (*alidns.DNSProvider, error) {
 	return alidns.NewDNSProviderConfig(config)
 }
 
+func (ali *Config) NickName() string {
+	return ali.nickName
+}
+
 func (ali *Config) signProvider() {
 	p, err := NewProvider(ali.AccessKey, ali.SecretKey)
 	if err != nil {
@@ -51,24 +57,25 @@ func (ali *Config) signLegoxClient() {
 }
 
 func (ali *Config) Init() {
-	ali.Default()
-	ali.signLegoxClient()
-	ali.signProvider()
+	ali.SetDefaults()
+
+	if ali.Enabled {
+		ali.signLegoxClient()
+		ali.signProvider()
+	}
 }
 
-func (ali *Config) Default() {
+func (ali *Config) SetDefaults() {
+	if ali.nickName == "" {
+		ali.nickName = "alidns"
+	}
+
 	if ali.Nameserver == "" {
 		ali.nsopt = legox.DefaultNSOpts
 	} else {
 		ali.nsopt = legox.SetNSOpts(ali.Nameserver)
 	}
 
-	if ali.AccessKey == "" || ali.SecretKey == "" {
-		logrus.Fatal("alidns AccessKey or SecretKey is required")
-	}
-	if ali.Email == "" {
-		logrus.Fatal("alidns Email is required")
-	}
 }
 
 func (ali *Config) ApplyCertificate(domains ...string) (legox.Certificate, error) {

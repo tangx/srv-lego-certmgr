@@ -7,15 +7,6 @@ import (
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 )
 
-type Config struct {
-	Email      string                `env:"email"`
-	Token      string                `env:"token"`
-	Nameserver string                `env:"nameserver"`
-	provider   *dnspod.DNSProvider   `env:"-"`
-	cli        *legox.LegoxClient    `env:"-"`
-	nsopt      dns01.ChallengeOption `env:"-"`
-}
-
 // NewProvider 返回一个 dnspod provider
 func NewProvider(token string) *dnspod.DNSProvider {
 	config := dnspod.NewDefaultConfig()
@@ -26,6 +17,17 @@ func NewProvider(token string) *dnspod.DNSProvider {
 		logrus.Fatal(err)
 	}
 	return p
+}
+
+type Config struct {
+	nickName   string
+	Enabled    bool                  `env:""`
+	Email      string                `env:""`
+	Token      string                `env:""`
+	Nameserver string                `env:""`
+	provider   *dnspod.DNSProvider   `env:"-"`
+	cli        *legox.LegoxClient    `env:"-"`
+	nsopt      dns01.ChallengeOption `env:"-"`
 }
 
 func NewDefualtClient(email string, token string) *Config {
@@ -41,13 +43,21 @@ func NewDefualtClient(email string, token string) *Config {
 
 // 初始化
 func (dp *Config) Init() {
-	dp.Default()
-	dp.signLegoxClient()
-	dp.signProvider()
+
+	dp.SetDefaults()
+
+	if dp.Enabled {
+		dp.signLegoxClient()
+		dp.signProvider()
+	}
 }
 
 // 初始化默认信息
-func (dp *Config) Default() {
+func (dp *Config) SetDefaults() {
+
+	if dp.nickName == "" {
+		dp.nickName = "dnspod"
+	}
 
 	// 设置 Nameserver 信息
 	if dp.Nameserver == "" {
@@ -55,15 +65,10 @@ func (dp *Config) Default() {
 	} else {
 		dp.nsopt = legox.SetNSOpts(dp.Nameserver)
 	}
+}
 
-	if dp.Token == "" {
-		logrus.Fatal("dnspod token is missing")
-	}
-
-	if dp.Email == "" {
-		logrus.Fatal("user email is required")
-	}
-
+func (dp *Config) NickName() string {
+	return dp.nickName
 }
 
 // ApplyCertificate 向 letsencrypt 申请证书

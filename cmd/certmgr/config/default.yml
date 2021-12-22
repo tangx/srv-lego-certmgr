@@ -1,0 +1,13 @@
+LegoCertManager__Alidns_AccessKey: ""
+LegoCertManager__Alidns_Email: ""
+LegoCertManager__Alidns_Enabled: false
+LegoCertManager__Alidns_Nameserver: ""
+LegoCertManager__Alidns_SecretKey: ""
+LegoCertManager__BackendManager__FileSystem_DirPath: lego-certmgr
+LegoCertManager__BackendManager_ClassName: filesystem
+LegoCertManager__Dnspod_Email: ""
+LegoCertManager__Dnspod_Enabled: false
+LegoCertManager__Dnspod_Nameserver: ""
+LegoCertManager__Dnspod_Token: ""
+LegoCertManager__HttpServer_Addr: ""
+LegoCertManager__HttpServer_Port: 80

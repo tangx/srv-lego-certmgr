@@ -1,3 +1,0 @@
-
-###
-POST http://127.0.0.1/lego-certmgr/provider?content=baidu.com=dnspod,qq.com=alidns

@@ -5,35 +5,31 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
+	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/global"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 	"github.com/tangx/srv-lego-certmgr/pkg/storage"
-	"github.com/tangx/srv-lego-certmgr/pkg/storage/filesystem"
 )
 
 func newCertMapper() *certMapper {
 	m := &certMapper{
-		set: make(map[string]legox.Certificate),
+		bucket: make(map[string]legox.Certificate),
 	}
 
-	// m.set["123123"] = legox.Certificate{}
-	// fmt.Println("m===>", m)
 	m.loading()
 
 	return m
 }
 
 type certMapper struct {
-	lock sync.RWMutex
-	set  map[string]legox.Certificate
-	// sto  storage.Storager
+	lock   sync.RWMutex
+	bucket map[string]legox.Certificate
 }
 
 func (m *certMapper) Store(name string, cert legox.Certificate) {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 
-	m.set[name] = cert
+	m.bucket[name] = cert
 
 }
 
@@ -42,7 +38,7 @@ func (m *certMapper) Get(domain string) (legox.Certificate, bool) {
 	m.lock.RLock()
 	defer m.lock.RUnlock()
 
-	cert, ok := m.set[domain]
+	cert, ok := m.bucket[domain]
 	if ok {
 		return cert, true
 	}
@@ -50,7 +46,7 @@ func (m *certMapper) Get(domain string) (legox.Certificate, bool) {
 	if storager != nil {
 		crt := storager.GetByName(domain)
 		if crt != nil {
-			m.set[domain] = *crt
+			m.bucket[domain] = *crt
 
 			return *crt, true
 		}
@@ -61,7 +57,7 @@ func (m *certMapper) Get(domain string) (legox.Certificate, bool) {
 
 func (m *certMapper) ListValidCerts() map[string]time.Time {
 	n := make(map[string]time.Time)
-	for _, cert := range m.set {
+	for _, cert := range m.bucket {
 		n[cert.Domain] = cert.NotAfter
 	}
 
@@ -71,7 +67,7 @@ func (m *certMapper) ListValidCerts() map[string]time.Time {
 func (m *certMapper) ListAll() map[string]legox.Certificate {
 	m.loading()
 
-	return m.set
+	return m.bucket
 }
 
 func (m *certMapper) loading() {
@@ -86,19 +82,17 @@ func (m *certMapper) loading() {
 	}
 
 	for _, crt := range lister.GetAllCerts() {
-		if m.set == nil {
+		if m.bucket == nil {
 			logrus.Panic("m.set is nill")
 		}
-
-		// logrus.Error("crt is cert", crt)
-		// logrus.Error("m.Store", m.set)
-
 		if crt == nil {
 			continue
 		}
 
 		m.Store(crt.Domain, *crt)
 	}
+
+	logrus.Debugf("loading from storage done: %s", m.bucket)
 
 }
 
@@ -108,27 +102,28 @@ var (
 )
 
 func init() {
-	storager = InitialStorager()
+	// storager = InitialStorager()
+	storager = global.BackendStorage()
 	mapper = newCertMapper()
 
 }
 
-// initial backend storage
-func InitialStorager() storage.Storager {
-	var sto storage.Storager
+// // initial backend storage
+// func InitialStorager() storage.Storager {
+// 	var sto storage.Storager
 
-	viper.AutomaticEnv()
+// 	viper.AutomaticEnv()
 
-	class := viper.GetString("BACKEND_STORAGE_CLASS")
-	switch class {
-	case "filesystem":
-		logrus.Error("create filesystem")
-		dir := viper.GetString("BACKEND_FILE_SYSTEM_DIR")
-		sto = filesystem.NewStorager(dir)
-	}
+// 	class := viper.GetString("BACKEND_STORAGE_CLASS")
+// 	switch class {
+// 	case "filesystem":
+// 		logrus.Error("create filesystem")
+// 		dir := viper.GetString("BACKEND_FILE_SYSTEM_DIR")
+// 		sto = backend.NewFileSystem(dir)
+// 	}
 
-	if sto == nil {
-		logrus.Error("storage is nill")
-	}
-	return sto
-}
+// 	if sto == nil {
+// 		logrus.Error("storage is nill")
+// 	}
+// 	return sto
+// }

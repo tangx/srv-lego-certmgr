@@ -1,4 +1,4 @@
-package cert
+package query
 
 import (
 	"errors"
@@ -6,11 +6,35 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-gonic/gin"
+	"github.com/go-jarvis/rum-gonic/pkg/httpx"
 	"github.com/tangx/goutils/archivex"
 	"github.com/tangx/goutils/filex"
 	"github.com/tangx/srv-lego-certmgr/cmd/certmgr/utils"
+	"github.com/tangx/srv-lego-certmgr/pkg/httpresponse"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox"
 )
+
+func init() {
+	QueryRouterGroup.Register(&DownloadCertByDomain{})
+}
+
+type DownloadCertByDomain struct {
+	httpx.MethodGet `path:"/:domain/download"`
+	Domain          string `uri:"domain"`
+}
+
+func (req *DownloadCertByDomain) Output(c *gin.Context) (interface{}, error) {
+	zipfile, err := download(req.Domain)
+	if err != nil {
+		return httpresponse.RespNotFound(err), nil
+	}
+
+	c.FileAttachment(zipfile, zipfile)
+	c.Abort()
+
+	return nil, nil
+}
 
 func archive(zipfile string, cert legox.Certificate) error {
 

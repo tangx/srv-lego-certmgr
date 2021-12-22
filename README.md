@@ -7,10 +7,6 @@
 1. 为了快速方便的申请 **Let's Encrypt** 证书
 2. 提供 RESTful API 接口， 方便下游系统 (ex `cmdb`) 调用并进行资源管理
 
-因此
-
-1. `certmgr` 为了方便快速返回已生成过的证书而缓存了一份结果。
-2. 由于 `certmgr` 定位是 **代理** ， 所以并未考虑证书的 **持久化** 和 **过期重建** 操作。 
 
 ## 使用说明
 
@@ -25,65 +21,65 @@
 
 ## Usage
 
-使用 `viper` 进行配置管理， 可以通过 `环境变量` 或 `配置文件` 进行参数传递
-
-### 通过环境变量
-
-```bash
-export DNSPOD_API_KEY=123123123,123123
-export ADMIN_EMAIL=xxxx@example.com
-
-./certmgr --dnspod
-
-# 
-export ALICLOUD_ACCESS_KEY=ACCasdfasdfasdf
-export ALICLOUD_SECRET_KEY=SECaasdf0sdfa02sdfa
-export ADMIN_EMAIL=xxxx@example.com
-
-./certmgr --alidns
-
-```
+使用 `https://github.com/go-jarvis` 替换 **网站路由管理** 和 **配置管理** 下 
+1. `go-jarvis/rum-gonic` 替换 `gin-gonic/gin` 管理 apis 路由
+2. `go-jarvis/jarvis` 替换 `viper` 管理环境变量
 
 ### 使用配置文件
 
-+ 路径为 `$HOME/certmgr` 或 `程序当前目录`
-+ 文件名为 `config.yml / config.yaml`
+1. 如果使用 bin 文件执行， 可以在 bin 所在目录下创建配置文件 `config/default.yml`
 
 ```yaml
-# dnspod
-DNSPOD_API_KEY : 123123123,123123
-
 # alidns
-ALICLOUD_ACCESS_KEY : ACCasdfasdfasdf
-ALICLOUD_SECRET_KEY : SECaasdf0sdfa02sdfa
+LegoCertManager__Alidns_AccessKey: ""
+LegoCertManager__Alidns_Email: ""
+LegoCertManager__Alidns_Enabled: true
+LegoCertManager__Alidns_Nameserver: ""
+LegoCertManager__Alidns_SecretKey: ""
 
-ADMIN_EMAIL : xxxx@example.com
+# dnspod
+LegoCertManager__Dnspod_Email: ""
+LegoCertManager__Dnspod_Enabled: true
+LegoCertManager__Dnspod_Nameserver: ""
+LegoCertManager__Dnspod_Token: "1231,123123123123"
+
+
+LegoCertManager__BackendManager__FileSystem_DirPath: lego-certmgr
+LegoCertManager__BackendManager_ClassName: filesystem
+
+LegoCertManager__HttpServer_Addr: ""
+LegoCertManager__HttpServer_Port: 80
+```
+
+
+2. 如果是容器运行， 也可以使用 **同名** 的 **环境变量**。
+例如：
+
+```bash
+export LegoCertManager__Dnspod_Email="user@example.com"
+# ...
+
+./certmgr
 ```
 
 **路由**
 
-```log
-WARN[0000]/Users/tangxin/data/gopath/pkg/mod/github.com/tangx/goutils@v1.3.2/viperx/viperx.go:48 github.com/tangx/goutils/viperx.ReadInConfig() Config File "config" Not Found in "[/tmp/srv-lego-certmgr/cmd/certmgr /Users/tangxin/lego-certmgr]"
-2021/12/21 15:22:17 [INFO] acme: Registering account for uyinn@live.com
-[GIN-debug] GET    /                         --> github.com/gin-gonic/gin.(*RouterGroup).StaticFile.func1 (4 handlers)
-[GIN-debug] HEAD   /                         --> github.com/gin-gonic/gin.(*RouterGroup).StaticFile.func1 (4 handlers)
-[GIN-debug] POST   /lego-certmgr/gen/dnspod/:domain --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/certgen.ApplyCertificateHandler (4 handlers)
-[GIN-debug] GET    /lego-certmgr/gen/dnspod/:domain --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.GetHandler (4 handlers)
-[GIN-debug] GET    /lego-certmgr/query/:domain --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.GetHandler (4 handlers)
-[GIN-debug] GET    /lego-certmgr/query/:domain/download --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.DownloadHandler (4 handlers)
-[GIN-debug] GET    /lego-certmgr/list        --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.ListHanlder (4 handlers)
-[GIN-debug] GET    /lego-certmgr/list-all    --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/cert.ListAllHanlder (4 handlers)
-[GIN-debug] GET    /lego-certmgr/healthy     --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/healthy.HealthyHandler (4 handlers)
-[GIN-debug] GET    /lego-certmgr/provider/map --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/provider.getDpmHandler (4 handlers)
-[GIN-debug] POST   /lego-certmgr/provider/map --> github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/provider.appendDpmHandler (4 handlers)
-[GIN-debug] Listening and serving HTTP on :80
-INFO[0001]/tmp/srv-lego-certmgr/cmd/certmgr/routes/certgen/generator.go:73 github.com/tangx/srv-lego-certmgr/cmd/certmgr/routes/certgen.retryApply.func1() 启动 dnspod 重试队列
+```bash
+
+[GIN-debug] GET    /                         # 首页
+[GIN-debug] HEAD   /                         
+[GIN-debug] GET    /lego-certmgr/list        # 展示有效证书
+[GIN-debug] GET    /lego-certmgr/list-all    # 展示所有证书
+[GIN-debug] GET    /lego-certmgr/query/:domain  # 根据证书域名查询证书
+[GIN-debug] GET    /lego-certmgr/query/:domain/download  # 根据证书域名下载证书压缩包
+[GIN-debug] POST   /lego-certmgr/gen/:provider/:domain   # 根据 dns 解析上和 域名 创建证书。
+2021/12/22 17:11:14 [Rum] Listening and serving HTTP on :80
 ```
 
 > provider: `alidns` or `dnspod`
 
-## todo
 
-+ [x] 优化 `routes/qcloud` ， 使其完成多 provider 注册式功能， 以支持多 provider
-+ [x] 优化 **初始化设置** 支持读取配置文件或环境变量， 实现多 provider 注册。 
-+ [ ] 优化 `initial` 逻辑 ， 同一个 email 只向 `let's encrypt` 注册一次
+### 简单的页面
+
+![index.png](./docs/imgs/index.png)
+

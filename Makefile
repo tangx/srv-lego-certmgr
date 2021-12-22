@@ -8,9 +8,11 @@ FLAGS := "-X $(GOMOD)/version.Version=$(VERSION)-sha.$(LAST_COMMIT)"
 
 MAIN_ROOT := cmd/certmgr
 
-debug:
+debug: tidy
 	cd $(MAIN_ROOT) && go run . 
 
+tidy:
+	go mod tidy
 help:
 	cd $(MAIN_ROOT) && go run . --help
 

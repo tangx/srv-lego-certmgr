@@ -8,7 +8,9 @@ import (
 
 func main() {
 
-	global.Server().Register(apis.BaseRouterGroup)
+	// global.Server().StaticFile("/index", "./static/index.html")
+	// global.Server().Register(apis.BaseRouterGroup)
+	global.Server().Register(apis.RootRouterGroup)
 	global.App.Run(
 		global.Server(),
 	)

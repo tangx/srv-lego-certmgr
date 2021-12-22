@@ -5,6 +5,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.6.0](https://github.com/tangx/srv-lego-certmgr/compare/v0.5.2...v0.6.0)
+
+### Bug Fixes
+
+* **fix** filesystem storage 读取本地文件 ([d1bbb97](https://github.com/tangx/srv-lego-certmgr/commit/d1bbb9717ef3edbc179fe8047b6eae25c6b80cbe))
+* **fix** read and store in backend ([279a217](https://github.com/tangx/srv-lego-certmgr/commit/279a2176588e3db6ededb28a0298f1409f6e54b1))
+* **fix** 初始化 backend storage ([f5b0a20](https://github.com/tangx/srv-lego-certmgr/commit/f5b0a2081cf39203e22fe0cb3bb1832b608bf61c))
+* **fix** 统一操作/读区证书的入口 ([4eab76c](https://github.com/tangx/srv-lego-certmgr/commit/4eab76c15fe474d112e3ddc815a592f17af1caf2))
+* **fix** 拆分 x509 功能为单独的函数 ([eced808](https://github.com/tangx/srv-lego-certmgr/commit/eced808b0db1b053c6618934915e8cec491207b8))
+
+
+### Features
+
+* **feat** 增加本地文件存储 ([a309a08](https://github.com/tangx/srv-lego-certmgr/commit/a309a08e201158be76496d17db579c06a7681c35))
+
+
+
 # [0.5.2](https://github.com/tangx/srv-lego-certmgr/compare/v0.5.1...v0.5.2)
 
 ### Bug Fixes

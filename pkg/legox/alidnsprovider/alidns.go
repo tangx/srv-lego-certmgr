@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	nickName   string                `env:""`
+	nickName   string
 	Enabled    bool                  `env:""`
 	Email      string                `env:""`
 	AccessKey  string                `env:""`

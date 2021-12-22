@@ -20,7 +20,7 @@ func NewProvider(token string) *dnspod.DNSProvider {
 }
 
 type Config struct {
-	nickName   string                `env:""`
+	nickName   string
 	Enabled    bool                  `env:""`
 	Email      string                `env:""`
 	Token      string                `env:""`

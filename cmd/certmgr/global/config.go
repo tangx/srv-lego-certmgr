@@ -7,18 +7,20 @@ import (
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/alidnsprovider"
 	"github.com/tangx/srv-lego-certmgr/pkg/legox/dnspodprovider"
 	providermanager "github.com/tangx/srv-lego-certmgr/pkg/legox/provider-manager"
+	"github.com/tangx/srv-lego-certmgr/pkg/storage"
 )
 
 var (
 	// Server  = ginx.Default()
-	Appname = "lego-certmgr"
+	Appname = "LegoCertManager"
 )
 
 // config fields
 var (
-	server = &confhttp.Server{}
-	alidns = &alidnsprovider.Config{}
-	dnspod = &dnspodprovider.Config{}
+	server         = &confhttp.Server{}
+	alidns         = &alidnsprovider.Config{}
+	dnspod         = &dnspodprovider.Config{}
+	storageManager = &storage.Manager{}
 )
 
 var (
@@ -32,13 +34,15 @@ var (
 
 func init() {
 	config := &struct {
-		HttpServer *confhttp.Server
-		Alidns     *alidnsprovider.Config
-		Dnspod     *dnspodprovider.Config
+		HttpServer     *confhttp.Server
+		Alidns         *alidnsprovider.Config
+		Dnspod         *dnspodprovider.Config
+		BackendManager *storage.Manager
 	}{
-		HttpServer: server,
-		Alidns:     alidns,
-		Dnspod:     dnspod,
+		HttpServer:     server,
+		Alidns:         alidns,
+		Dnspod:         dnspod,
+		BackendManager: storageManager,
 	}
 
 	_ = App.Conf(config)
@@ -63,4 +67,8 @@ func registerProviders() {
 
 func ProviderManager() *providermanager.Manager {
 	return providers
+}
+
+func BackendStorage() storage.Storager {
+	return storageManager.Storage()
 }
